@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f1b3d">
+<title>مدرستي برو – Madrasati Pro</title>
+<style>
+:root{--bg:#f3f5fa;--card:#fff;--ink:#1b2333;--mute:#6b7488;--line:#e2e6ef;--pri:#1f5eff;--pri2:#e9f0ff;--ok:#0f9a4c;--okb:#e3f6eb;--warn:#c27c00;--warnb:#fff3d9;--bad:#d33030;--badb:#fde9e9;--side:#0f1b3d;--side2:#1a2a57;--r:12px}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:"Segoe UI",Tahoma,"Noto Sans Arabic","Geeza Pro",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--pri)}
+.app{display:flex;min-height:100vh}
+.side{width:240px;background:var(--side);color:#cfd7ee;flex-shrink:0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{padding:18px 16px;border-bottom:1px solid #ffffff14;display:flex;gap:10px;align-items:center}
+.brand .lg{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#3f7bff,#7a5cff);display:grid;place-items:center;font-size:20px}
+.brand b{color:#fff;display:block;font-size:15px}.brand small{font-size:11px;opacity:.7}
+.nav{padding:8px;flex:1}
+.nav button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:inherit;padding:9px 10px;border-radius:9px;cursor:pointer;text-align:start;font-size:13.5px}
+.nav button:hover{background:#ffffff10}.nav button.on{background:var(--side2);color:#fff;font-weight:600}
+.nav .ic{width:22px;text-align:center}
+.sidefoot{padding:12px 16px;font-size:11px;opacity:.6;border-top:1px solid #ffffff14}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{background:var(--card);border-bottom:1px solid var(--line);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+.top h1{font-size:18px;margin:0;flex:1}
+.burger{display:none;border:0;background:none;font-size:22px;cursor:pointer}
+.chip{background:var(--pri2);color:var(--pri);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.content{padding:20px;max-width:1400px;width:100%}
+.btn{border:1px solid var(--line);background:var(--card);padding:7px 13px;border-radius:9px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:#c5cddc}
+.btn.p{background:var(--pri);border-color:var(--pri);color:#fff}.btn.p:hover{filter:brightness(1.07)}
+.btn.d{color:var(--bad)}.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.s{padding:4px 9px;font-size:12.5px}
+.btn.wa{background:#25d366;border-color:#25d366;color:#fff;text-decoration:none}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sp{flex:1}
+.grid{display:grid;gap:14px}
+.k4{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.k2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.card h3{margin:0 0 12px;font-size:15px}
+.kpi{display:flex;gap:12px;align-items:center}
+.kpi .i{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font-size:21px;background:var(--pri2);flex-shrink:0}
+.kpi b{font-size:21px;display:block}.kpi span{color:var(--mute);font-size:12.5px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:start;color:var(--mute);font-weight:600;font-size:12.5px;padding:9px 8px;border-bottom:1px solid var(--line);background:#fafbfd;white-space:nowrap}
+.tbl td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:hover td{background:#fafbff}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600;background:#eef1f6;color:#495266}
+.tag.ok{background:var(--okb);color:var(--ok)}.tag.bad{background:var(--badb);color:var(--bad)}.tag.warn{background:var(--warnb);color:var(--warn)}.tag.pri{background:var(--pri2);color:var(--pri)}
+.av{width:34px;height:34px;border-radius:50%;object-fit:cover;background:#dde3ee;display:inline-grid;place-items:center;font-weight:700;color:#59627a;font-size:13px;vertical-align:middle}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--mute)}
+.fld input,.fld select,.fld textarea,.inp{border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:#fff;color:var(--ink);font-size:14px;min-width:0}
+.fld input:focus,.fld select:focus,.inp:focus,textarea:focus{outline:2px solid #1f5eff40;border-color:var(--pri)}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.fg .full{grid-column:1/-1}
+.cbx{display:flex;gap:7px;align-items:center;color:var(--ink);font-size:13.5px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow:auto}
+.tabs button{border:0;background:none;padding:9px 14px;cursor:pointer;color:var(--mute);border-bottom:2px solid transparent;white-space:nowrap;font-weight:600}
+.tabs button.on{color:var(--pri);border-bottom-color:var(--pri)}
+.modal{position:fixed;inset:0;background:#0b122680;display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 12px;overflow:auto}
+.modal.on{display:flex}
+.mbox{background:var(--card);border-radius:14px;width:100%;max-width:820px;box-shadow:0 20px 60px #0004}
+.mbox.sm{max-width:460px}
+.mhead{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center}
+.mhead b{flex:1;font-size:16px}
+.x{border:0;background:none;font-size:24px;cursor:pointer;line-height:1;color:var(--mute)}
+.mbody{padding:18px;max-height:70vh;overflow:auto}
+.mfoot{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.mfoot:empty{display:none}
+.toast{position:fixed;bottom:20px;inset-inline-start:50%;transform:translateX(50%);background:#111a33;color:#fff;padding:10px 18px;border-radius:10px;z-index:99;opacity:0;transition:.25s;pointer-events:none;max-width:90vw}
+[dir=ltr] .toast{transform:translateX(-50%)}
+.toast.on{opacity:1}
+.bars{display:flex;align-items:flex-end;gap:8px;height:170px;padding-top:10px}
+.bars .b{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;min-width:0}
+.bars .pair{display:flex;gap:2px;align-items:flex-end;height:100%;width:100%;justify-content:center}
+.bars .pair i{display:block;width:42%;max-width:18px;border-radius:4px 4px 0 0;background:var(--pri);min-height:2px}
+.bars .pair i.e{background:#f0a23b}
+.bars small{font-size:10.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--mute)}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:5px;vertical-align:middle}
+.prog{height:7px;background:#eef1f6;border-radius:5px;overflow:hidden}.prog i{display:block;height:100%;background:var(--pri)}
+.prog i.full{background:var(--bad)}
+.att button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12.5px;font-weight:600}
+.att button.P.on{background:var(--ok);color:#fff;border-color:var(--ok)}
+.att button.A.on{background:var(--bad);color:#fff;border-color:var(--bad)}
+.att button.R.on{background:var(--warn);color:#fff;border-color:var(--warn)}
+.att button.J.on{background:#6c5ce7;color:#fff;border-color:#6c5ce7}
+.tt{border-collapse:collapse;width:100%;min-width:760px;table-layout:fixed}
+.tt th,.tt td{border:1px solid var(--line);padding:4px;text-align:center;font-size:12.5px}
+.tt th{background:#fafbfd;color:var(--mute)}
+.tt td{height:58px;cursor:pointer;background:#fff}
+.tt td:hover{background:var(--pri2)}
+.tt .cell{border-radius:7px;padding:4px;height:100%;display:flex;flex-direction:column;justify-content:center;gap:1px}
+.tt .cell b{font-size:12.5px}.tt .cell small{font-size:11px;color:var(--mute)}
+.tt .cell.cx{background:var(--badb);text-decoration:line-through}
+.alert{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+.alert:last-child{border-bottom:0}
+.empty{padding:30px;text-align:center;color:var(--mute)}
+.login{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 10%,#2a4bb8,#0f1b3d 60%);padding:16px}
+.login .card{width:100%;max-width:420px;padding:28px}
+.muted{color:var(--mute)}
+.sc{display:grid;grid-template-columns:110px 1fr;gap:18px}
+.sc img,.sc .ph{width:110px;height:130px;border-radius:12px;object-fit:cover;background:#e3e8f1;display:grid;place-items:center;font-size:40px}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 18px;font-size:13.5px}
+.kv div span{color:var(--mute);display:block;font-size:12px}
+.pre{white-space:pre-wrap;background:#f7f8fb;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px}
+#print{display:none}
+.doc{background:#fff;color:#000;padding:30px 36px;font-family:"Times New Roman",Georgia,serif;font-size:15px}
+.doc .dh{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:22px;gap:10px}
+.doc .dt{text-align:center;font-size:21px;font-weight:700;margin:16px 0 22px;text-decoration:underline}
+.doc table{width:100%;border-collapse:collapse;margin:10px 0}
+.doc td,.doc th{border:1px solid #000;padding:5px 7px;font-size:13.5px}
+.doc .sig{display:flex;justify-content:space-between;margin-top:46px}
+.docprev{border:1px solid var(--line);border-radius:10px;overflow:auto;max-height:62vh}
+@media print{
+ body *{visibility:hidden}
+ #print,#print *{visibility:visible}
+ #print{display:block;position:absolute;inset:0}
+ .doc{padding:10px}
+ .pb{page-break-after:always}
+}
+@media (max-width:900px){
+ .side{position:fixed;inset-inline-start:0;z-index:40;transform:translateX(100%);transition:.25s;height:100%}
+ [dir=ltr] .side{transform:translateX(-100%)}
+ .side.open{transform:none!important;box-shadow:0 0 50px #0006}
+ .burger{display:block}
+ .content{padding:12px}
+ .top{padding:10px 12px}.top h1{font-size:16px}
+ .sc{grid-template-columns:1fr}
+ .hidem{display:none}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"></div>
+<div id="toast" class="toast"></div>
+<div id="print"></div>
+<input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">
+<script>
+/* ============ CORE ============ */
+const KEY='madrasati_pro_v1';
+let lang='ar';
+try{lang=localStorage.getItem('mp_lang')||'ar'}catch(e){}
+const L=(a,f)=>lang==='ar'?a:f;
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,10);
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmtD=d=>d?d.split('-').reverse().join('/'):'';
+const num=n=>(Math.round((+n||0)*100)/100).toLocaleString('fr-FR');
+const money=n=>num(n)+' '+DB.settings.currency;
+const f2=n=>n==null||isNaN(n)?'—':(+n).toFixed(2);
+
+const CYCLES=[['pre','التعليم الأولي','Préscolaire'],['pri','الابتدائي','Primaire'],['col','الإعدادي','Collège'],['lyc','الثانوي التأهيلي','Lycée qualifiant']];
+const cyName=c=>{const x=CYCLES.find(y=>y[0]===c);return x?L(x[1],x[2]):''};
+const ROLES={director:['الإدارة','Administration']};
+const roleName=r=>ROLES[r]?L(ROLES[r][0],ROLES[r][1]):r;
+const STAFFT={teacher:['أستاذ(ة)','Enseignant(e)'],admin:['إداري(ة)','Administratif'],accountant:['محاسب(ة)','Comptable'],surveillant:['حارس عام','Surveillant'],driver:['سائق','Chauffeur'],other:['أخرى','Autre']};
+const STATUS={active:['مسجل','Inscrit','ok'],withdrawn:['منسحب','Retiré','bad'],transferred:['منتقل','Transféré','warn']};
+const ATT={P:['حاضر','Présent'],A:['غائب','Absent'],R:['متأخر','Retard'],J:['غياب مبرر','Justifié']};
+const PAYT={insc:['واجب التسجيل','Inscription'],month:['واجب التمدرس الشهري','Mensualité'],transport:['النقل المدرسي','Transport'],canteen:['المطعم المدرسي','Cantine'],activity:['الأنشطة الموازية','Activités'],other:['أخرى','Autre']};
+const PAYM={cash:['نقداً','Espèces'],cheque:['شيك','Chèque'],transfer:['تحويل بنكي','Virement']};
+const EXPC={salary:['الأجور','Salaires'],rent:['الكراء','Loyer'],utilities:['الماء والكهرباء','Eau & électricité'],supplies:['اللوازم','Fournitures'],transport:['النقل (وقود/صيانة)','Transport'],canteen:['المطعم','Cantine'],maintenance:['الصيانة','Maintenance'],other:['أخرى','Autre']};
+const REQDOCS=[['عقد الازدياد','Acte de naissance'],['صور شمسية','Photos d\'identité'],['شهادة المغادرة','Certificat de radiation'],['الدفتر الصحي','Carnet de santé'],['نسخة بطاقة ولي الأمر','CIN du tuteur'],['آخر بيان للنقط','Dernier bulletin']];
+const DAYS=[['الإثنين','Lundi'],['الثلاثاء','Mardi'],['الأربعاء','Mercredi'],['الخميس','Jeudi'],['الجمعة','Vendredi'],['السبت','Samedi']];
+const SLOTS=['08:00-09:00','09:00-10:00','10:00-11:00','11:00-12:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00'];
+const MN={ar:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],fr:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']};
+const SM=[9,10,11,12,1,2,3,4,5,6];
+const mName=m=>MN[lang][m-1];
+const smKey=m=>`${m>=9?DB.settings.yearStart:DB.settings.yearStart+1}-${String(m).padStart(2,'0')}`;
+const yearLbl=()=>`${DB.settings.yearStart}/${DB.settings.yearStart+1}`;
+
+const MODS=[
+['dashboard','📊','الرئيسية','Tableau de bord',['director']],
+['students','👨‍🎓','التلاميذ','Élèves',['director']],
+['classes','🏫','الأقسام والمستويات','Classes & niveaux',['director']],
+['staff','👩‍🏫','الأساتذة والموظفون','Personnel',['director']],
+['attendance','✅','الحضور والغياب','Présences & absences',['director']],
+['finance','💰','المالية والمحاسبة','Finances & comptabilité',['director']],
+['grades','📝','النقط والنتائج','Notes & résultats',['director']],
+['timetable','🗓️','استعمال الزمن','Emploi du temps',['director']],
+['comms','💬','التواصل مع الآباء','Communication parents',['director']],
+['services','🚌','النقل والمطعم','Transport & cantine',['director']],
+['inventory','📦','المكتبة والمخزون','Bibliothèque & stock',['director']],
+['documents','🖨️','الوثائق والتقارير','Documents & rapports',['director']],
+['insights','🤖','المساعد الذكي','Assistant intelligent',['director']],
+['settings','⚙️','الإعدادات والحماية','Paramètres & sécurité',['director']]
+];
+
+function defaultDB(){return{
+ settings:{name:'مدرسة النجاح الخصوصية',nameFr:'École Privée Annajah',address:'',city:'',phone:'',email:'',yearStart:2026,inscFee:1500,monthly:{pre:600,pri:850,col:1000,lyc:1200},transportFee:300,canteenFee:400,absThreshold:4,currency:'DH',auth:''},
+ subjects:[],classes:[],students:[],staff:[],attendance:{},payments:[],expenses:[],evals:[],remarks:{},timetable:{},
+ buses:[],menu:{},items:[],moves:[],messages:[],events:[],audit:[],
+ users:{director:'1234'},
+ seq:{receipt:0}
+}}
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);const b=defaultDB();return Object.assign(b,d,{settings:Object.assign(b.settings,d.settings||{})})}}catch(e){}return null}
+let DB=load();
+let FRESH=!DB;
+if(!DB){DB=defaultDB();seedSubjects()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){toast(L('تعذر الحفظ المحلي','Sauvegarde locale impossible'))}}
+function log(a){DB.audit.unshift({ts:new Date().toISOString(),u:S.user?roleName(S.user.role)+(S.user.phone?' '+S.user.phone:''):'—',a});if(DB.audit.length>600)DB.audit.length=600}
+function commit(a){if(a)log(a);save();render()}
+
+let S={user:null,view:'dashboard',tab:{},f:{}};
+try{const s=JSON.parse(localStorage.getItem('mp_session')||'null');if(s&&s.role==='director')S.user=s}catch(e){}
+
+/* ============ HELPERS ============ */
+const act=()=>DB.students.filter(s=>s.status==='active');
+const cls=id=>DB.classes.find(c=>c.id===id);
+const stu=id=>DB.students.find(s=>s.id===id);
+const stf=id=>DB.staff.find(s=>s.id===id);
+const sub=id=>DB.subjects.find(s=>s.id===id);
+const subName=id=>{const s=sub(id);return s?L(s.ar,s.fr):'—'};
+const fullName=s=>s?`${s.firstName||''} ${s.lastName||''}`.trim():'—';
+const clsName=id=>{const c=cls(id);return c?c.name:L('بدون قسم','Sans classe')};
+const studentsOf=cid=>act().filter(s=>s.classId===cid).sort((a,b)=>fullName(a).localeCompare(fullName(b),'ar'));
+const teachers=()=>DB.staff.filter(s=>s.type==='teacher');
+function monthsElapsed(){const y=+DB.settings.yearStart,n=new Date();const m=(n.getFullYear()-y)*12+n.getMonth()-8+1;return Math.max(0,Math.min(10,m))}
+function cycleOf(s){const c=cls(s.classId);return c?c.cycle:'pri'}
+function baseMonthly(s){return s.fee!==undefined&&s.fee!==''&&s.fee!==null?+s.fee:+DB.settings.monthly[cycleOf(s)]||0}
+function monthlyOf(s){return baseMonthly(s)+(s.busId?+DB.settings.transportFee:0)+(s.canteen?+DB.settings.canteenFee:0)}
+function expectedOf(s){return (+DB.settings.inscFee||0)+monthsElapsed()*monthlyOf(s)}
+function paidOf(s){return DB.payments.filter(p=>p.studentId===s.id).reduce((a,p)=>a+(+p.amount||0),0)}
+function balanceOf(s){return Math.max(0,expectedOf(s)-paidOf(s))}
+function absOf(sid,from,to){let c={A:0,R:0,J:0};for(const d in DB.attendance){if(from&&d<from)continue;if(to&&d>to)continue;const v=DB.attendance[d][sid];if(v&&c[v]!==undefined)c[v]++}return c}
+function normPhone(p){p=String(p||'').replace(/\D/g,'');if(p.startsWith('00'))p=p.slice(2);if(p.startsWith('0'))p='212'+p.slice(1);return p}
+function waLink(phone,msg){return `https://wa.me/${normPhone(phone)}?text=${encodeURIComponent(msg)}`}
+function waBtn(phone,msg,label){return phone?`<a class="btn s wa" href="${waLink(phone,msg)}" target="_blank" rel="noopener">🟢 ${label||'WhatsApp'}</a>`:''}
+function av(s){return s&&s.photo?`<img class="av" src="${s.photo}" alt="">`:`<span class="av">${esc((s&&s.firstName||'?').charAt(0))}</span>`}
+function opts(list,val,empty){return (empty!==undefined?`<option value="">${empty}</option>`:'')+list.map(([v,t])=>`<option value="${esc(v)}" ${String(v)===String(val??'')?'selected':''}>${esc(t)}</option>`).join('')}
+function inp(label,name,val,type='text',extra='',cls=''){return `<label class="fld ${cls}"><span>${label}</span><input name="${name}" type="${type}" value="${esc(val)}" ${extra}></label>`}
+function selF(label,name,val,list,empty,cls='',extra=''){return `<label class="fld ${cls}"><span>${label}</span><select name="${name}" ${extra}>${opts(list,val,empty)}</select></label>`}
+function txtF(label,name,val,cls='full'){return `<label class="fld ${cls}"><span>${label}</span><textarea name="${name}" rows="3">${esc(val)}</textarea></label>`}
+function fd(sel){const o={};document.querySelectorAll(sel+' [name]').forEach(e=>{o[e.name]=e.type==='checkbox'?e.checked:e.value});return o}
+const classOpts=()=>DB.classes.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(c=>[c.id,c.name]);
+const stuOpts=()=>act().slice().sort((a,b)=>fullName(a).localeCompare(fullName(b),'ar')).map(s=>[s.id,fullName(s)+' — '+clsName(s.classId)]);
+const subOpts=()=>DB.subjects.map(s=>[s.id,L(s.ar,s.fr)]);
+const mapOpts=o=>Object.entries(o).map(([k,v])=>[k,L(v[0],v[1])]);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600)}
+function modal(title,body,foot,size){$('#modal').innerHTML=`<div class="mbox ${size||''}"><div class="mhead"><b>${title}</b><button class="x" onclick="closeModal()">×</button></div><div class="mbody">${body}</div><div class="mfoot">${foot||''}</div></div>`;$('#modal').classList.add('on')}
+function closeModal(){$('#modal').classList.remove('on');$('#modal').innerHTML=''}
+let _cf=null;
+function ask(msg,cb){_cf=cb;modal(L('تأكيد','Confirmation'),`<p>${msg}</p>`,`<button class="btn" onclick="closeModal()">${L('إلغاء','Annuler')}</button><button class="btn p" style="background:var(--bad);border-color:var(--bad)" onclick="const f=_cf;closeModal();f&&f()">${L('تأكيد','Confirmer')}</button>`,'sm')}
+function tabs(v,list){const cur=S.tab[v]||list[0][0];return `<div class="tabs">${list.map(([k,l])=>`<button class="${k===cur?'on':''}" onclick="S.tab['${v}']='${k}';render()">${l}</button>`).join('')}</div>`}
+const curTab=(v,d)=>S.tab[v]||d;
+const can=m=>{const x=MODS.find(y=>y[0]===m);return x&&S.user&&x[4].includes(S.user.role)};
+const isMoney=()=>S.user&&['director','accountant'].includes(S.user.role);
+function appreciation(a){if(a==null)return '';return a>=16?L('ممتاز','Excellent'):a>=14?L('حسن جداً','Très bien'):a>=12?L('حسن','Bien'):a>=10?L('مستحسن','Passable'):L('غير كافٍ','Insuffisant')}
+
+/* ============ RENDER ============ */
+function render(){
+ document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+ const ae=document.activeElement,fid=ae&&ae.id,pos=ae&&ae.selectionStart;
+ if(!S.user){$('#root').innerHTML=vLogin();return}
+ if(!can(S.view))S.view=MODS.find(m=>can(m[0]))[0];
+ const m=MODS.find(x=>x[0]===S.view);
+ const nav=MODS.filter(x=>can(x[0])).map(x=>`<button class="${x[0]===S.view?'on':''}" onclick="go('${x[0]}')"><span class="ic">${x[1]}</span>${L(x[2],x[3])}</button>`).join('');
+ let body='';try{body=VIEWS[S.view]()}catch(e){console.error(e);body=`<div class="card">${L('خطأ في العرض','Erreur')}: ${esc(e.message)}</div>`}
+ $('#root').innerHTML=`<div class="app"><aside class="side" id="side"><div class="brand"><div class="lg">🏫</div><div><b>${esc(L(DB.settings.name,DB.settings.nameFr))}</b><small>Madrasati Pro · ${yearLbl()}</small></div></div><nav class="nav">${nav}</nav><div class="sidefoot">${L('آخر حفظ محلي تلقائي','Sauvegarde locale automatique')}</div></aside>
+ <div class="main"><header class="top"><button class="burger" onclick="$('#side').classList.toggle('open')">☰</button><h1>${m[1]} ${L(m[2],m[3])}</h1>
+ <button class="btn s" onclick="setLang()">${lang==='ar'?'🇫🇷 Français':'🇲🇦 العربية'}</button>
+ <button class="btn s" onclick="logout()">🔒 ${L('قفل','Verrouiller')}</button></header>
+ <div class="content">${body}</div></div></div>`;
+ if(fid){const e=document.getElementById(fid);if(e){e.focus();try{e.setSelectionRange(pos,pos)}catch(x){}}}
+}
+function go(v){S.view=v;window.scrollTo(0,0);render()}
+function setLang(){lang=lang==='ar'?'fr':'ar';try{localStorage.setItem('mp_lang',lang)}catch(e){}render()}
+function logout(){closeModal();log(L('تسجيل الخروج','Déconnexion'));save();S.user=null;try{localStorage.removeItem('mp_session')}catch(e){}render()}
+
+/* ============ LOGIN ============ */
+function vLogin(){
+ return `<div class="login"><div class="card"><div style="text-align:center;margin-bottom:18px"><div style="font-size:44px">🏫</div><h2 style="margin:6px 0 2px">${esc(L(DB.settings.name,DB.settings.nameFr))}</h2><div class="muted">Madrasati Pro — ${L('تطبيق الإدارة','Application de gestion')}</div></div>
+ <form onsubmit="event.preventDefault();doLogin()" id="lf" class="grid">
+ ${inp(L('الرمز السري PIN','Code PIN'),'pin','','password','required inputmode="numeric" autocomplete="off" autofocus')}
+ <button class="btn p" style="justify-content:center;padding:10px">${L('دخول','Se connecter')}</button>
+ <div class="row" style="justify-content:space-between"><span class="muted" style="font-size:12px">${L('الرمز الافتراضي: 1234 (غيّره من الإعدادات)','PIN par défaut : 1234 (modifiable dans Paramètres)')}</span><button type="button" class="btn s" onclick="setLang()">${lang==='ar'?'Français':'العربية'}</button></div>
+ </form></div></div>`
+}
+function doLogin(){
+ const d=fd('#lf');
+ if(String(DB.users.director)!==String(d.pin))return toast(L('الرمز غير صحيح','Code incorrect'));S.user={role:'director'};
+ try{localStorage.setItem('mp_session',JSON.stringify(S.user))}catch(e){}
+ S.view='dashboard';log(L('تسجيل الدخول','Connexion'));save();render();
+ if(FRESH&&S.user.role==='director'){FRESH=false;modal(L('مرحباً بك','Bienvenue'),`<p>${L('التطبيق فارغ حالياً. يمكنك تحميل بيانات تجريبية لاكتشاف جميع الخصائص، أو البدء مباشرة بإدخال بيانات مؤسستك.','L\'application est vide. Chargez des données de démonstration pour tout découvrir, ou commencez avec vos propres données.')}</p>`,`<button class="btn" onclick="closeModal()">${L('البدء بدون بيانات','Commencer vide')}</button><button class="btn p" onclick="closeModal();seedDemo()">${L('تحميل بيانات تجريبية','Charger la démo')}</button>`,'sm')}
+}
+
+/* ============ DASHBOARD ============ */
+function vDashboard(){
+ const st=act(),td=DB.attendance[today()]||{};
+ const vals=Object.values(td),A=vals.filter(v=>v==='A'||v==='J').length,R=vals.filter(v=>v==='R').length;
+ const nowK=today().slice(0,7);
+ const inc=DB.payments.filter(p=>p.date.startsWith(nowK)).reduce((a,p)=>a+ +p.amount,0);
+ const unpaid=st.filter(s=>balanceOf(s)>0);
+ const due=unpaid.reduce((a,s)=>a+balanceOf(s),0);
+ const d30=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+ const newS=st.filter(s=>(s.regDate||'')>=d30);
+ const k=(i,v,l,bg)=>`<div class="card kpi"><div class="i" style="${bg?'background:'+bg:''}">${i}</div><div><b>${v}</b><span>${l}</span></div></div>`;
+ let h=`<div class="grid k4">
+ ${k('👨‍🎓',st.length,L('تلميذ مسجل','élèves inscrits'))}
+ ${k('👩‍🏫',DB.staff.length,L('أستاذ وموظف','enseignants & personnel'),'#f1ecff')}
+ ${k('🏫',DB.classes.length+' / '+new Set(DB.classes.map(c=>c.cycle)).size,L('قسم / سلك','classes / cycles'),'#e7f7ef')}
+ ${k('✅',vals.length?`${vals.length-A-R} <small style="font-size:13px;color:var(--bad)">−${A}</small>`:'—',vals.length?L(`حاضر اليوم · ${A} غياب · ${R} تأخر`,`présents · ${A} abs. · ${R} ret.`):L('لم يسجل الحضور اليوم','Présence non saisie aujourd\'hui'),'#fff3d9')}
+ ${isMoney()?k('💰',money(inc),L('مداخيل '+mName(new Date().getMonth()+1),'Recettes de '+mName(new Date().getMonth()+1)),'#e3f6eb'):''}
+ ${isMoney()?k('⚠️',money(due),L(`واجبات غير مؤداة (${unpaid.length} تلميذ)`,`impayés (${unpaid.length} élèves)`),'#fde9e9'):''}
+ ${k('🆕',newS.length,L('تلاميذ جدد (30 يوماً)','nouveaux élèves (30 j)'),'#e9f0ff')}
+ </div>`;
+ const al=alertsList();
+ h+=`<div class="grid k2" style="margin-top:14px">`;
+ if(isMoney())h+=`<div class="card"><div class="row"><h3 style="margin:0">${L('المداخيل والمصاريف','Recettes & dépenses')} ${yearLbl()}</h3><span class="sp"></span><div class="legend"><span><i style="background:var(--pri)"></i>${L('مداخيل','Recettes')}</span><span><i style="background:#f0a23b"></i>${L('مصاريف','Dépenses')}</span></div></div>${chartMonths()}</div>`;
+ h+=`<div class="card"><div class="row"><h3 style="margin:0">🔔 ${L('تنبيهات ومواعيد مهمة','Alertes & échéances')}</h3><span class="sp"></span>${['director','admin'].includes(S.user.role)?`<button class="btn s" onclick="eventForm()">+ ${L('موعد','Événement')}</button>`:''}</div><div style="margin-top:8px">${al.length?al.map(a=>`<div class="alert"><span>${a[0]}</span><div style="flex:1">${a[1]}</div>${a[2]||''}</div>`).join(''):`<div class="empty">${L('لا توجد تنبيهات','Aucune alerte')} ✨</div>`}</div></div>`;
+ h+=`<div class="card"><h3>📈 ${L('التلاميذ حسب السلك','Élèves par cycle')}</h3>${CYCLES.map(c=>{const n=st.filter(s=>cycleOf(s)===c[0]).length;return `<div style="margin-bottom:10px"><div class="row"><span>${L(c[1],c[2])}</span><span class="sp"></span><b>${n}</b></div><div class="prog"><i style="width:${st.length?n/st.length*100:0}%"></i></div></div>`}).join('')}</div>`;
+ h+=`<div class="card"><h3>🆕 ${L('آخر التسجيلات','Dernières inscriptions')}</h3>${st.slice().sort((a,b)=>(b.regDate||'').localeCompare(a.regDate||'')).slice(0,6).map(s=>`<div class="row" style="padding:5px 0">${av(s)}<div style="flex:1"><b>${esc(fullName(s))}</b><div class="muted" style="font-size:12px">${esc(clsName(s.classId))} · ${fmtD(s.regDate)}</div></div></div>`).join('')||`<div class="empty">—</div>`}</div>`;
+ return h+'</div>';
+}
+function alertsList(){
+ const a=[],t=today(),in14=new Date(Date.now()+14*864e5).toISOString().slice(0,10);
+ DB.events.filter(e=>e.type!=='rdv'&&e.date>=t&&e.date<=in14).sort((x,y)=>x.date.localeCompare(y.date)).forEach(e=>a.push(['📅',`<b>${esc(e.title)}</b><div class="muted" style="font-size:12px">${fmtD(e.date)}</div>`,['director','admin'].includes(S.user.role)?`<button class="btn s d" onclick="delEvent('${e.id}')">✕</button>`:'']));
+ if(isMoney()){const late=act().filter(s=>balanceOf(s)>=monthlyOf(s)*2&&monthlyOf(s)>0);if(late.length)a.push(['💸',L(`${late.length} تلميذ متأخر بشهرين أو أكثر في الأداء`,`${late.length} élève(s) avec 2 mois ou plus d'impayés`),`<button class="btn s" onclick="S.tab.finance='unpaid';go('finance')">${L('عرض','Voir')}</button>`])}
+ const th=+DB.settings.absThreshold,from=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+ const ab=act().filter(s=>absOf(s.id,from).A>=th);if(ab.length)a.push(['🚨',L(`${ab.length} تلميذ تجاوز ${th} غيابات غير مبررة خلال 30 يوماً`,`${ab.length} élève(s) ≥ ${th} absences non justifiées sur 30 j`),'']);
+ DB.classes.forEach(c=>{const n=studentsOf(c.id).length;if(c.capacity&&n>c.capacity)a.push(['🏫',L(`القسم ${esc(c.name)} تجاوز الطاقة الاستيعابية (${n}/${c.capacity})`,`La classe ${esc(c.name)} dépasse sa capacité (${n}/${c.capacity})`),''])});
+ const low=DB.items.filter(i=>i.min&&+i.qty<=+i.min);if(low.length)a.push(['📦',L(`${low.length} مادة في المخزون وصلت الحد الأدنى`,`${low.length} article(s) en stock bas`),'']);
+ if(!(DB.attendance[t])&&new Date().getDay()!==0)a.push(['📝',L('لم يتم تسجيل الحضور اليوم بعد','La présence du jour n\'est pas encore saisie'),can('attendance')?`<button class="btn s" onclick="go('attendance')">${L('تسجيل','Saisir')}</button>`:'']);
+ return a;
+}
+function monthTotals(){return SM.map(m=>{const k=smKey(m);return{m,inc:DB.payments.filter(p=>p.date.startsWith(k)).reduce((a,p)=>a+ +p.amount,0),exp:DB.expenses.filter(p=>p.date.startsWith(k)).reduce((a,p)=>a+ +p.amount,0)}})}
+function chartMonths(){const d=monthTotals(),mx=Math.max(1,...d.map(x=>Math.max(x.inc,x.exp)));return `<div class="bars">${d.map(x=>`<div class="b" title="${mName(x.m)}: ${money(x.inc)} / ${money(x.exp)}"><div class="pair"><i style="height:${x.inc/mx*100}%"></i><i class="e" style="height:${x.exp/mx*100}%"></i></div><small>${mName(x.m).slice(0,4)}</small></div>`).join('')}</div>`}
+function eventForm(){modal(L('موعد / حدث مهم','Événement'),`<div class="fg" id="ef">${inp(L('العنوان','Titre'),'title','','text','required')}${inp(L('التاريخ','Date'),'date',today(),'date')}</div>`,`<button class="btn p" onclick="saveEvent()">${L('حفظ','Enregistrer')}</button>`,'sm')}
+function saveEvent(){const d=fd('#ef');if(!d.title)return;DB.events.push({id:uid(),type:'event',...d});closeModal();commit(L('إضافة موعد: ','Événement: ')+d.title)}
+function delEvent(id){DB.events=DB.events.filter(e=>e.id!==id);commit()}
+
+/* ============ STUDENTS ============ */
+function vStudents(){
+ const q=(S.f.sq||'').toLowerCase(),fc=S.f.sc||'',fs=S.f.ss||'active';
+ let list=DB.students.filter(s=>(!fs||s.status===fs)&&(!fc||s.classId===fc)&&(!q||(fullName(s)+' '+(s.massar||'')+' '+(s.parentPhone||'')+' '+(s.guardian||'')).toLowerCase().includes(q)));
+ list.sort((a,b)=>fullName(a).localeCompare(fullName(b),'ar'));
+ return `<div class="row" style="margin-bottom:14px">
+ <input id="sq" class="inp" style="flex:1;min-width:180px" placeholder="🔍 ${L('بحث بالاسم، رقم مسار، الهاتف...','Rechercher nom, Massar, téléphone...')}" value="${esc(S.f.sq||'')}" oninput="S.f.sq=this.value;render()">
+ <select class="inp" onchange="S.f.sc=this.value;render()">${opts(classOpts(),fc,L('كل الأقسام','Toutes les classes'))}</select>
+ <select class="inp" onchange="S.f.ss=this.value;render()">${opts(mapOpts(STATUS),fs,L('كل الحالات','Tous statuts'))}</select>
+ <button class="btn p" onclick="studentForm()">+ ${L('تسجيل تلميذ جديد','Nouvel élève')}</button></div>
+ <div class="tw"><table class="tbl"><thead><tr><th></th><th>${L('الاسم الكامل','Nom complet')}</th><th>${L('رقم مسار','Massar')}</th><th>${L('القسم','Classe')}</th><th class="hidem">${L('ولي الأمر','Tuteur')}</th><th>${L('الهاتف','Tél.')}</th><th>${L('الحالة','Statut')}</th>${isMoney()?`<th>${L('الباقي','Reste')}</th>`:''}<th></th></tr></thead><tbody>
+ ${list.map(s=>{const b=balanceOf(s);return `<tr><td>${av(s)}</td><td><a href="#" onclick="event.preventDefault();studentCard('${s.id}')"><b>${esc(fullName(s))}</b></a></td><td>${esc(s.massar||'—')}</td><td>${esc(clsName(s.classId))}</td><td class="hidem">${esc(s.guardian||s.fatherName||'')}</td><td dir="ltr">${esc(s.parentPhone||'')}</td><td><span class="tag ${STATUS[s.status][2]}">${L(STATUS[s.status][0],STATUS[s.status][1])}</span></td>${isMoney()?`<td>${b>0?`<span class="tag bad">${money(b)}</span>`:`<span class="tag ok">0</span>`}</td>`:''}<td style="white-space:nowrap"><button class="btn s" onclick="studentCard('${s.id}')">📇</button> <button class="btn s" onclick="studentForm('${s.id}')">✏️</button> <button class="btn s d" onclick="delStudent('${s.id}')">🗑</button></td></tr>`}).join('')||`<tr><td colspan="9" class="empty">${L('لا يوجد تلاميذ','Aucun élève')}</td></tr>`}
+ </tbody></table></div><div class="muted" style="margin-top:8px;font-size:12.5px">${list.length} ${L('تلميذ','élève(s)')}</div>`
+}
+function studentForm(id){
+ const s=id?stu(id):{status:'active',regDate:today(),docs:[],gender:'M'};
+ const busO=DB.buses.map(b=>[b.id,b.name]);
+ modal(id?L('تعديل ملف التلميذ','Modifier l\'élève'):L('تسجيل تلميذ جديد','Inscription d\'un nouvel élève'),`<form id="sf" onsubmit="return false">
+ <div class="row" style="margin-bottom:14px;align-items:center"><div id="phPrev">${s.photo?`<img src="${s.photo}" style="width:80px;height:95px;object-fit:cover;border-radius:10px">`:`<div class="ph" style="width:80px;height:95px;border-radius:10px;background:#e3e8f1;display:grid;place-items:center;font-size:30px">👤</div>`}</div>
+ <label class="btn">📷 ${L('الصورة الشخصية','Photo')}<input type="file" accept="image/*" style="display:none" onchange="handlePhoto(this)"></label><input type="hidden" name="photo" value="${esc(s.photo||'')}"></div>
+ <h4 style="margin:6px 0 10px">${L('المعلومات الشخصية','Identité')}</h4>
+ <div class="fg">${inp(L('الاسم','Prénom'),'firstName',s.firstName,'text','required')}${inp(L('النسب','Nom'),'lastName',s.lastName,'text','required')}${selF(L('الجنس','Sexe'),'gender',s.gender,[['M',L('ذكر','Garçon')],['F',L('أنثى','Fille')]])}${inp(L('تاريخ الازدياد','Date de naissance'),'birth',s.birth,'date')}${inp(L('مكان الازدياد','Lieu de naissance'),'birthPlace',s.birthPlace)}${inp(L('رقم مسار','Code Massar'),'massar',s.massar,'text','placeholder="J123456789"')}</div>
+ <h4 style="margin:16px 0 10px">${L('التمدرس','Scolarité')}</h4>
+ <div class="fg">${selF(L('القسم','Classe'),'classId',s.classId,classOpts(),L('— اختر —','— choisir —'))}${selF(L('الحالة','Statut'),'status',s.status,mapOpts(STATUS))}${inp(L('تاريخ التسجيل','Date d\'inscription'),'regDate',s.regDate,'date')}${inp(L('المؤسسة السابقة','Établissement précédent'),'prevSchool',s.prevSchool)}</div>
+ <h4 style="margin:16px 0 10px">${L('ولي الأمر','Parents / tuteur')}</h4>
+ <div class="fg">${inp(L('اسم الأب','Nom du père'),'fatherName',s.fatherName)}${inp(L('اسم الأم','Nom de la mère'),'motherName',s.motherName)}${inp(L('ولي الأمر (إن وجد)','Tuteur (si autre)'),'guardian',s.guardian)}${inp(L('الهاتف الرئيسي','Téléphone principal'),'parentPhone',s.parentPhone,'tel','placeholder="06XXXXXXXX"')}${inp(L('هاتف ثانٍ','Téléphone 2'),'parentPhone2',s.parentPhone2,'tel')}${inp(L('رقم بطاقة ولي الأمر','CIN du tuteur'),'cin',s.cin)}${inp(L('العنوان','Adresse'),'address',s.address,'text','','full')}</div>
+ <h4 style="margin:16px 0 10px">${L('المالية والخدمات','Frais & services')}</h4>
+ <div class="fg">${inp(L('الواجب الشهري (فارغ = حسب المستوى)','Mensualité (vide = selon niveau)'),'fee',s.fee??'','number','min="0"')}${selF(L('النقل المدرسي','Transport'),'busId',s.busId,busO,L('بدون','Aucun'))}<label class="cbx" style="margin-top:20px"><input type="checkbox" name="canteen" ${s.canteen?'checked':''}> ${L('المطعم المدرسي','Cantine')}</label>${inp(L('الحساسية الغذائية / ملاحظات صحية','Allergies / notes santé'),'allergies',s.allergies)}</div>
+ <h4 style="margin:16px 0 10px">${L('الوثائق المطلوبة للتسجيل','Pièces du dossier')}</h4>
+ <div class="fg">${REQDOCS.map((d,i)=>`<label class="cbx"><input type="checkbox" name="doc_${i}" ${(s.docs||[]).includes(i)?'checked':''}> ${L(d[0],d[1])}</label>`).join('')}</div>
+ <div class="fg" style="margin-top:12px">${txtF(L('ملاحظات','Remarques'),'notes',s.notes)}</div></form>`,
+ `<button class="btn" onclick="closeModal()">${L('إلغاء','Annuler')}</button><button class="btn p" onclick="saveStudent('${id||''}')">💾 ${L('حفظ','Enregistrer')}</button>`);
+}
+function handlePhoto(inpt){const f=inpt.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),W=180,H=Math.round(im.height*W/im.width);c.width=W;c.height=H;c.getContext('2d').drawImage(im,0,0,W,H);const u=c.toDataURL('image/jpeg',.8);document.querySelector('#sf [name=photo]').value=u;$('#phPrev').innerHTML=`<img src="${u}" style="width:80px;height:95px;object-fit:cover;border-radius:10px">`};im.src=r.result};r.readAsDataURL(f)}
+function saveStudent(id){
+ const d=fd('#sf');if(!d.firstName||!d.lastName)return toast(L('الاسم والنسب إجباريان','Nom et prénom obligatoires'));
+ const docs=REQDOCS.map((_,i)=>d['doc_'+i]?i:-1).filter(i=>i>=0);REQDOCS.forEach((_,i)=>delete d['doc_'+i]);d.docs=docs;
+ if(d.classId){const c=cls(d.classId),n=studentsOf(d.classId).filter(x=>x.id!==id).length;if(c.capacity&&n>=c.capacity)toast(L(`تنبيه: القسم ممتلئ (${n}/${c.capacity})`,`Attention : classe pleine (${n}/${c.capacity})`))}
+ if(id){Object.assign(stu(id),d);closeModal();commit(L('تعديل ملف: ','Modification élève: ')+fullName(d))}
+ else{const s={id:uid(),...d};DB.students.push(s);closeModal();commit(L('تسجيل تلميذ: ','Inscription: ')+fullName(d))}
+}
+function delStudent(id){const s=stu(id);ask(L(`حذف التلميذ ${esc(fullName(s))} وجميع بياناته؟ (يمكنك بدلاً من ذلك تغيير حالته إلى منسحب)`,`Supprimer ${esc(fullName(s))} et toutes ses données ? (vous pouvez plutôt le marquer « Retiré »)`),()=>{DB.students=DB.students.filter(x=>x.id!==id);DB.payments=DB.payments.filter(p=>p.studentId!==id);commit(L('حذف تلميذ: ','Suppression élève: ')+fullName(s))})}
+function studentCard(id){
+ const s=stu(id),c=cls(s.classId),ab=absOf(id),pays=DB.payments.filter(p=>p.studentId===id).sort((a,b)=>b.date.localeCompare(a.date));
+ const res=[1,2].map(t=>{const r=s.classId?results(s.classId,t).rows.find(x=>x.s.id===id):null;return r&&r.avg!=null?`<span class="tag pri">${L('الدورة','Semestre')} ${t}: ${f2(r.avg)} (${r.rank}/${r.n})</span>`:''}).join(' ');
+ modal(`📇 ${esc(fullName(s))}`,`<div class="sc">${s.photo?`<img src="${s.photo}">`:`<div class="ph">👤</div>`}<div>
+ <div class="kv">
+ <div><span>${L('رقم مسار','Massar')}</span>${esc(s.massar||'—')}</div><div><span>${L('القسم / السلك','Classe / cycle')}</span>${esc(clsName(s.classId))} · ${c?cyName(c.cycle):''}</div>
+ <div><span>${L('تاريخ ومكان الازدياد','Naissance')}</span>${fmtD(s.birth)} ${esc(s.birthPlace||'')}</div><div><span>${L('الحالة','Statut')}</span><span class="tag ${STATUS[s.status][2]}">${L(STATUS[s.status][0],STATUS[s.status][1])}</span></div>
+ <div><span>${L('الأب / الأم','Père / mère')}</span>${esc(s.fatherName||'—')} / ${esc(s.motherName||'—')}</div><div><span>${L('الهاتف','Téléphone')}</span><span dir="ltr">${esc(s.parentPhone||'—')}</span></div>
+ <div><span>${L('العنوان','Adresse')}</span>${esc(s.address||'—')}</div><div><span>${L('تاريخ التسجيل / المؤسسة السابقة','Inscription / précédent')}</span>${fmtD(s.regDate)} · ${esc(s.prevSchool||'—')}</div>
+ <div><span>${L('الخدمات','Services')}</span>${s.busId?'🚌 '+esc((DB.buses.find(b=>b.id===s.busId)||{}).name||''):''} ${s.canteen?'🍽 '+L('مطعم','Cantine'):''} ${!s.busId&&!s.canteen?'—':''}</div>${s.allergies?`<div><span>${L('ملاحظات صحية','Santé')}</span><span class="tag warn">${esc(s.allergies)}</span></div>`:''}
+ </div></div></div>
+ <h4>🎓 ${L('التاريخ الدراسي','Parcours scolaire')}</h4><div class="row">${res||`<span class="muted">${L('لا توجد نقط بعد','Pas encore de notes')}</span>`}<span class="tag bad">${L('غياب','Abs.')}: ${ab.A}</span><span class="tag warn">${L('تأخر','Ret.')}: ${ab.R}</span><span class="tag">${L('مبرر','Just.')}: ${ab.J}</span></div>
+ <h4>📁 ${L('الوثائق','Dossier')}</h4><div class="row">${REQDOCS.map((d,i)=>`<span class="tag ${(s.docs||[]).includes(i)?'ok':'bad'}">${(s.docs||[]).includes(i)?'✓':'✗'} ${L(d[0],d[1])}</span>`).join('')}</div>
+ ${isMoney()?`<h4>💰 ${L('الوضعية المالية','Situation financière')} <small class="muted">(${monthsElapsed()} ${L('شهر محتسب','mois échus')})</small></h4>
+ <div class="grid k4"><div class="card kpi"><div><span>${L('خاصو يخلص','Montant dû')}</span><b>${money(expectedOf(s))}</b></div></div><div class="card kpi"><div><span>${L('خلص','Payé')}</span><b style="color:var(--ok)">${money(paidOf(s))}</b></div></div><div class="card kpi"><div><span>${L('باقي عليه','Reste')}</span><b style="color:var(--bad)">${money(balanceOf(s))}</b></div></div></div>
+ <div class="muted" style="font-size:12px;margin:6px 0">${L('الواجب الشهري','Mensualité')}: ${money(monthlyOf(s))} · ${L('التسجيل','Inscription')}: ${money(DB.settings.inscFee)}</div>
+ <div class="tw" style="margin-top:8px"><table class="tbl"><tr><th>${L('التاريخ','Date')}</th><th>${L('النوع','Type')}</th><th>${L('الشهر','Mois')}</th><th>${L('المبلغ','Montant')}</th><th>${L('الطريقة','Mode')}</th><th></th></tr>${pays.map(p=>`<tr><td>${fmtD(p.date)}</td><td>${L(PAYT[p.type][0],PAYT[p.type][1])}</td><td>${p.month?mName(+p.month):''}</td><td><b>${money(p.amount)}</b></td><td>${L(PAYM[p.method][0],PAYM[p.method][1])}</td><td><button class="btn s" onclick="docReceipt('${p.id}')">🧾</button></td></tr>`).join('')||`<tr><td colspan="6" class="empty">—</td></tr>`}</table></div>`:''}`,
+ `${isMoney()?`<button class="btn ok" onclick="paymentForm('${id}')">+ ${L('تسجيل أداء','Encaisser')}</button>`:''}<button class="btn" onclick="docCert('${id}')">🖨 ${L('شهادة مدرسية','Certificat')}</button><button class="btn" onclick="studentForm('${id}')">✏️ ${L('تعديل','Modifier')}</button>${isMoney()&&balanceOf(s)>0?waBtn(s.parentPhone,tplPay(s),L('تذكير بالأداء','Rappel')):''}`);
+}
+
+/* ============ CLASSES ============ */
+function vClasses(){
+ const una=act().filter(s=>!s.classId||!cls(s.classId));
+ let h=`<div class="row" style="margin-bottom:14px"><span class="muted">${L('نظم الأقسام حسب الأسلاك، وحدد الطاقة الاستيعابية لكل قسم.','Organisez les classes par cycle et fixez leur capacité.')}</span><span class="sp"></span>${una.length?`<button class="btn" onclick="distribute()">🔀 ${L('توزيع التلاميذ بدون قسم','Répartir les élèves sans classe')} (${una.length})</button>`:''}<button class="btn p" onclick="classForm()">+ ${L('قسم جديد','Nouvelle classe')}</button></div>`;
+ CYCLES.forEach(cy=>{const cs=DB.classes.filter(c=>c.cycle===cy[0]).sort((a,b)=>a.name.localeCompare(b.name));
+ h+=`<h3 style="margin:18px 0 10px">${L(cy[1],cy[2])} <span class="tag">${cs.length}</span></h3><div class="grid k4">${cs.map(c=>{const n=studentsOf(c.id).length,p=c.capacity?Math.min(100,n/c.capacity*100):0;return `<div class="card"><div class="row"><b style="font-size:16px">${esc(c.name)}</b><span class="sp"></span><span class="muted" style="font-size:12px">${esc(c.level||'')}</span></div><div class="row" style="margin:10px 0 6px"><span class="muted">${L('التلاميذ','Élèves')}</span><span class="sp"></span><b>${n} / ${c.capacity||'∞'}</b></div><div class="prog"><i class="${n>=c.capacity?'full':''}" style="width:${p}%"></i></div><div class="muted" style="font-size:12px;margin-top:8px">👩‍🏫 ${esc((stf(c.mainTeacher)||{}).name||'—')} · 🚪 ${esc(c.room||'—')}</div><div class="row" style="margin-top:10px"><button class="btn s" onclick="classList('${c.id}')">📋 ${L('اللائحة','Liste')}</button><button class="btn s" onclick="classForm('${c.id}')">✏️</button><button class="btn s d" onclick="delClass('${c.id}')">🗑</button></div></div>`}).join('')||`<div class="muted">—</div>`}</div>`});
+ return h;
+}
+function classForm(id){const c=id?cls(id):{cycle:'pri',capacity:30};modal(id?L('تعديل القسم','Modifier la classe'):L('قسم جديد','Nouvelle classe'),`<div class="fg" id="cf">${inp(L('اسم القسم','Nom de la classe'),'name',c.name,'text','required placeholder="CE1-A / 1AC-2"')}${selF(L('السلك','Cycle'),'cycle',c.cycle,CYCLES.map(x=>[x[0],L(x[1],x[2])]))}${inp(L('المستوى','Niveau'),'level',c.level,'text','placeholder="'+L('الأول ابتدائي','1ère année')+'"')}${inp(L('الطاقة الاستيعابية','Capacité'),'capacity',c.capacity,'number','min="1"')}${inp(L('القاعة','Salle'),'room',c.room)}${selF(L('الأستاذ الرئيسي','Professeur principal'),'mainTeacher',c.mainTeacher,teachers().map(t=>[t.id,t.name]),'—')}</div>`,`<button class="btn p" onclick="saveClass('${id||''}')">💾 ${L('حفظ','Enregistrer')}</button>`,'sm')}
+function saveClass(id){const d=fd('#cf');if(!d.name)return;d.capacity=+d.capacity||0;if(id)Object.assign(cls(id),d);else DB.classes.push({id:uid(),...d});closeModal();commit(L('حفظ القسم: ','Classe: ')+d.name)}
+function delClass(id){const c=cls(id),n=studentsOf(id).length;ask(L(`حذف القسم ${esc(c.name)}؟ ${n} تلميذ سيصبحون بدون قسم.`,`Supprimer ${esc(c.name)} ? ${n} élève(s) deviendront sans classe.`),()=>{DB.classes=DB.classes.filter(x=>x.id!==id);delete DB.timetable[id];commit(L('حذف القسم: ','Suppression classe: ')+c.name)})}
+function classList(id){const c=cls(id),sts=studentsOf(id);modal(`📋 ${esc(c.name)} — ${sts.length} ${L('تلميذ','élèves')}`,`<div class="tw"><table class="tbl"><tr><th>#</th><th>${L('الاسم','Nom')}</th><th>${L('مسار','Massar')}</th><th>${L('تاريخ الازدياد','Naissance')}</th><th>${L('نقل إلى','Déplacer vers')}</th></tr>${sts.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(fullName(s))}</td><td>${esc(s.massar||'')}</td><td>${fmtD(s.birth)}</td><td><select class="inp" onchange="moveStudent('${s.id}',this.value,'${id}')">${opts(classOpts(),s.classId)}</select></td></tr>`).join('')}</table></div>`,`<button class="btn" onclick="docClassList('${id}')">🖨 ${L('طباعة اللائحة','Imprimer')}</button>`)}
+function moveStudent(sid,cid,back){const s=stu(sid);s.classId=cid;log(L('نقل ','Transfert ')+fullName(s)+' → '+clsName(cid));save();classList(back);render()}
+function distribute(){const una=act().filter(s=>!s.classId||!cls(s.classId));modal(L('توزيع التلاميذ على الأقسام','Répartition des élèves'),`<div class="tw"><table class="tbl">${una.map(s=>`<tr><td>${esc(fullName(s))}</td><td><select class="inp" id="d_${s.id}">${opts(classOpts(),'','—')}</select></td></tr>`).join('')}</table></div>`,`<button class="btn p" onclick="saveDistribute()">💾 ${L('حفظ','Enregistrer')}</button>`)}
+function saveDistribute(){act().forEach(s=>{const e=document.getElementById('d_'+s.id);if(e&&e.value)s.classId=e.value});closeModal();commit(L('توزيع التلاميذ','Répartition des élèves'))}
+
+/* ============ STAFF ============ */
+function staffLoad(tid){let n=0;const cl=new Set();for(const c in DB.timetable)for(const k in DB.timetable[c]){const x=DB.timetable[c][k];if(x.teacherId===tid&&!x.cancel){n++;cl.add(c)}}return{h:n,cl:[...cl]}}
+function vStaff(){
+ const ft=S.f.st||'';const list=DB.staff.filter(s=>!ft||s.type===ft).sort((a,b)=>a.name.localeCompare(b.name,'ar'));
+ const dir=S.user.role==='director';
+ return `<div class="row" style="margin-bottom:14px"><select class="inp" onchange="S.f.st=this.value;render()">${opts(mapOpts(STAFFT),ft,L('كل الفئات','Toutes fonctions'))}</select><span class="sp"></span><button class="btn p" onclick="staffForm()">+ ${L('إضافة أستاذ / موظف','Ajouter')}</button></div>
+ <div class="tw"><table class="tbl"><thead><tr><th>${L('الاسم','Nom')}</th><th>${L('الوظيفة','Fonction')}</th><th>${L('التخصص / الشهادة','Spécialité / diplôme')}</th><th>${L('المواد','Matières')}</th><th>${L('الأقسام المسندة','Classes')}</th><th>${L('ساعات/أسبوع','H/sem')}</th><th>${L('غياب/رخص','Abs./congés')}</th>${dir?`<th>${L('الأجرة','Salaire')}</th>`:''}<th></th></tr></thead><tbody>
+ ${list.map(s=>{const ld=staffLoad(s.id);const ab=(s.absences||[]);return `<tr><td><b>${esc(s.name)}</b><div class="muted" style="font-size:12px" dir="ltr">${esc(s.phone||'')}</div></td><td><span class="tag">${L(STAFFT[s.type][0],STAFFT[s.type][1])}</span></td><td>${esc(s.specialty||'')}<div class="muted" style="font-size:12px">${esc(s.diploma||'')}</div></td><td>${(s.subjects||[]).map(subName).join('، ')||'—'}</td><td>${ld.cl.map(clsName).join('، ')||'—'}</td><td>${ld.h||(s.hours||'—')}</td><td>${ab.length?`<span class="tag warn">${ab.length}</span>`:'0'}</td>${dir?`<td>${money(s.salary)}</td>`:''}<td style="white-space:nowrap"><button class="btn s" onclick="staffAbs('${s.id}')">📅</button> ${s.type==='teacher'?`<button class="btn s" onclick="S.f.ttMode='t';S.f.ttT='${s.id}';go('timetable')">🗓</button>`:''} ${dir?`<button class="btn s" onclick="paySalary('${s.id}')">💵</button>`:''} <button class="btn s" onclick="staffForm('${s.id}')">✏️</button> <button class="btn s d" onclick="delStaff('${s.id}')">🗑</button></td></tr>`}).join('')||`<tr><td colspan="9" class="empty">—</td></tr>`}
+ </tbody></table></div>`
+}
+function staffForm(id){const s=id?stf(id):{type:'teacher',subjects:[]};const dir=S.user.role==='director';
+ modal(id?L('تعديل الملف','Modifier'):L('أستاذ / موظف جديد','Nouveau membre du personnel'),`<div class="fg" id="pf">${inp(L('الاسم الكامل','Nom complet'),'name',s.name,'text','required')}${selF(L('الوظيفة','Fonction'),'type',s.type,mapOpts(STAFFT))}${inp(L('رقم البطاقة الوطنية','CIN'),'cin',s.cin)}${inp(L('الهاتف','Téléphone'),'phone',s.phone,'tel')}${inp(L('البريد الإلكتروني','Email'),'email',s.email,'email')}${inp(L('تاريخ التوظيف','Date d\'embauche'),'hireDate',s.hireDate,'date')}${inp(L('الشهادة','Diplôme'),'diploma',s.diploma)}${inp(L('التخصص','Spécialité'),'specialty',s.specialty)}${dir?inp(L('الأجرة الشهرية','Salaire mensuel'),'salary',s.salary,'number','min="0"'):''}${dir?inp(L('التعويضات','Indemnités'),'bonus',s.bonus,'number','min="0"'):''}${inp(L('ساعات العمل الأسبوعية (تعاقدياً)','Heures/sem (contrat)'),'hours',s.hours,'number')}
+ <div class="full"><div class="muted" style="font-size:12.5px;margin-bottom:6px">${L('المواد التي يدرسها','Matières enseignées')}</div><div class="row">${DB.subjects.map(sb=>`<label class="cbx"><input type="checkbox" name="sub_${sb.id}" ${(s.subjects||[]).includes(sb.id)?'checked':''}> ${esc(L(sb.ar,sb.fr))}</label>`).join('')}</div></div></div>`,
+ `<button class="btn p" onclick="saveStaff('${id||''}')">💾 ${L('حفظ','Enregistrer')}</button>`)}
+function saveStaff(id){const d=fd('#pf');if(!d.name)return;d.subjects=DB.subjects.filter(sb=>d['sub_'+sb.id]).map(sb=>sb.id);DB.subjects.forEach(sb=>delete d['sub_'+sb.id]);if(id)Object.assign(stf(id),d);else DB.staff.push({id:uid(),absences:[],...d});closeModal();commit(L('حفظ ملف موظف: ','Personnel: ')+d.name)}
+function delStaff(id){const s=stf(id);ask(L(`حذف ${esc(s.name)}؟`,`Supprimer ${esc(s.name)} ?`),()=>{DB.staff=DB.staff.filter(x=>x.id!==id);commit(L('حذف موظف: ','Suppression: ')+s.name)})}
+function staffAbs(id){const s=stf(id);s.absences=s.absences||[];const T={abs:L('غياب','Absence'),late:L('تأخر','Retard'),leave:L('عطلة','Congé'),sick:L('رخصة مرضية','Congé maladie'),perm:L('رخصة استثنائية','Autorisation')};
+ modal(`📅 ${esc(s.name)} — ${L('الغياب والتأخر والعطل','Absences, retards & congés')}`,`<div class="fg" id="saf">${inp(L('من','Du'),'date',today(),'date')}${inp(L('إلى','Au'),'to','','date')}${selF(L('النوع','Type'),'type','abs',Object.entries(T))}${inp(L('ملاحظة','Note'),'note','')}</div><div style="margin:10px 0"><button class="btn p" onclick="addStaffAbs('${id}')">+ ${L('إضافة','Ajouter')}</button></div>
+ <div class="tw"><table class="tbl"><tr><th>${L('التاريخ','Date')}</th><th>${L('النوع','Type')}</th><th>${L('ملاحظة','Note')}</th><th></th></tr>${s.absences.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(a=>`<tr><td>${fmtD(a.date)}${a.to?' → '+fmtD(a.to):''}</td><td>${T[a.type]}</td><td>${esc(a.note)}</td><td><button class="btn s d" onclick="delStaffAbs('${id}','${a.id}')">✕</button></td></tr>`).join('')||`<tr><td colspan="4" class="empty">—</td></tr>`}</table></div>`)}
+function addStaffAbs(id){const d=fd('#saf');stf(id).absences.push({id:uid(),...d});log(L('غياب/رخصة: ','Absence personnel: ')+stf(id).name);save();staffAbs(id);render()}
+function delStaffAbs(id,aid){const s=stf(id);s.absences=s.absences.filter(a=>a.id!==aid);save();staffAbs(id);render()}
+function paySalary(id){const s=stf(id);const m=new Date().getMonth()+1;modal(`💵 ${L('أداء أجرة','Paiement de salaire')} — ${esc(s.name)}`,`<div class="fg" id="psf">${inp(L('المبلغ','Montant'),'amount',(+s.salary||0)+(+s.bonus||0),'number')}${inp(L('التاريخ','Date'),'date',today(),'date')}${selF(L('عن شهر','Mois'),'month',m,SM.map(x=>[x,mName(x)]))}${selF(L('الطريقة','Mode'),'method','transfer',mapOpts(PAYM))}</div>`,`<button class="btn p" onclick="saveSalary('${id}')">💾 ${L('تسجيل','Enregistrer')}</button>`,'sm')}
+function saveSalary(id){const d=fd('#psf'),s=stf(id);DB.expenses.push({id:uid(),date:d.date,category:'salary',amount:+d.amount,label:L('أجرة ','Salaire ')+s.name+' – '+mName(+d.month),method:d.method,staffId:id});closeModal();commit(L('أداء أجرة: ','Salaire payé: ')+s.name)}
+
+/* ============ ATTENDANCE ============ */
+let ATTD={};
+function vAttendance(){
+ const t=curTab('attendance','take');
+ let h=tabs('attendance',[['take',L('تسجيل الحضور','Saisie')],['stats',L('الإحصائيات والتقارير','Statistiques & rapports')]]);
+ if(!DB.classes.length)return h+`<div class="empty">${L('أضف الأقسام أولاً','Ajoutez d\'abord des classes')}</div>`;
+ const cid=S.f.ac||DB.classes[0].id,date=S.f.ad||today();
+ if(t==='take'){
+  const sts=studentsOf(cid),rec=DB.attendance[date]||{};
+  const key=cid+date;if(ATTD._k!==key){ATTD={_k:key};sts.forEach(s=>ATTD[s.id]=rec[s.id]||'P')}
+  const taken=sts.some(s=>rec[s.id]);
+  h+=`<div class="row" style="margin-bottom:12px"><select class="inp" onchange="S.f.ac=this.value;render()">${opts(classOpts(),cid)}</select><input class="inp" type="date" value="${date}" onchange="S.f.ad=this.value;render()">${taken?`<span class="tag ok">✓ ${L('مسجل','Saisi')}</span>`:`<span class="tag warn">${L('غير مسجل','Non saisi')}</span>`}<span class="sp"></span><button class="btn" onclick="allPresent()">✓ ${L('الكل حاضر','Tous présents')}</button><button class="btn p" onclick="saveAtt('${cid}','${date}')">💾 ${L('حفظ','Enregistrer')}</button></div>
+  <div class="tw"><table class="tbl"><tr><th>#</th><th>${L('التلميذ','Élève')}</th><th>${L('الحالة','État')}</th><th class="hidem">${L('غياب الشهر','Abs. mois')}</th></tr>${sts.map((s,i)=>{const a=absOf(s.id,date.slice(0,7)+'-01',date.slice(0,7)+'-31');return `<tr><td>${i+1}</td><td>${av(s)} ${esc(fullName(s))}</td><td class="att" style="white-space:nowrap">${Object.keys(ATT).map(k=>`<button class="${k} ${ATTD[s.id]===k?'on':''}" onclick="ATTD['${s.id}']='${k}';render()">${L(ATT[k][0],ATT[k][1])}</button>`).join(' ')}</td><td class="hidem">${a.A?`<span class="tag bad">${a.A}</span>`:'0'} ${a.R?`<span class="tag warn">${a.R}R</span>`:''}</td></tr>`}).join('')||`<tr><td colspan="4" class="empty">${L('لا يوجد تلاميذ في هذا القسم','Aucun élève')}</td></tr>`}</table></div>`;
+  const absT=sts.filter(s=>rec[s.id]==='A'||rec[s.id]==='R');
+  if(absT.length)h+=`<div class="card" style="margin-top:14px"><h3>📲 ${L('إشعار أولياء الأمور','Notifier les parents')}</h3>${absT.map(s=>`<div class="row" style="padding:5px 0"><span style="flex:1">${esc(fullName(s))} — <span class="tag ${rec[s.id]==='A'?'bad':'warn'}">${L(ATT[rec[s.id]][0],ATT[rec[s.id]][1])}</span></span>${waBtn(s.parentPhone,tplAbs(s,date,rec[s.id]))}${s.parentPhone?`<a class="btn s" href="sms:${esc(s.parentPhone)}?body=${encodeURIComponent(tplAbs(s,date,rec[s.id]))}">💬 SMS</a>`:`<span class="muted">${L('لا يوجد رقم','Pas de numéro')}</span>`}</div>`).join('')}</div>`;
+ }else{
+  const mo=S.f.am||today().slice(0,7);const sts=studentsOf(cid);
+  const rows=sts.map(s=>({s,a:absOf(s.id,mo+'-01',mo+'-31')})).sort((x,y)=>y.a.A-x.a.A);
+  const days=Object.keys(DB.attendance).filter(d=>d.startsWith(mo)&&sts.some(s=>DB.attendance[d][s.id])).sort();
+  const tot=rows.reduce((a,r)=>({A:a.A+r.a.A,R:a.R+r.a.R,J:a.J+r.a.J}),{A:0,R:0,J:0});
+  const rate=days.length&&sts.length?100-(tot.A+tot.J)/(days.length*sts.length)*100:null;
+  h+=`<div class="row" style="margin-bottom:12px"><select class="inp" onchange="S.f.ac=this.value;render()">${opts(classOpts(),cid)}</select><input class="inp" type="month" value="${mo}" onchange="S.f.am=this.value;render()"><span class="sp"></span><button class="btn" onclick="docAbsReport('${cid}','${mo}')">🖨 ${L('تقرير الغياب الشهري','Rapport mensuel')}</button><button class="btn" onclick="docAbsDay('${S.f.ad||today()}')">🖨 ${L('تقرير الغياب اليومي','Rapport du jour')}</button></div>
+  <div class="grid k4" style="margin-bottom:14px"><div class="card kpi"><div class="i">📆</div><div><b>${days.length}</b><span>${L('يوم مسجل','jours saisis')}</span></div></div><div class="card kpi"><div class="i" style="background:var(--okb)">📈</div><div><b>${rate==null?'—':rate.toFixed(1)+'%'}</b><span>${L('نسبة الحضور','Taux de présence')}</span></div></div><div class="card kpi"><div class="i" style="background:var(--badb)">❌</div><div><b>${tot.A}</b><span>${L('غياب غير مبرر','abs. non justifiées')}</span></div></div><div class="card kpi"><div class="i" style="background:var(--warnb)">⏰</div><div><b>${tot.R}</b><span>${L('تأخر','retards')}</span></div></div></div>
+  <div class="tw"><table class="tbl"><tr><th>${L('التلميذ','Élève')}</th><th>${L('غير مبرر','Non just.')}</th><th>${L('مبرر','Justifié')}</th><th>${L('تأخر','Retards')}</th><th></th></tr>${rows.map(r=>`<tr><td>${esc(fullName(r.s))}</td><td>${r.a.A>=DB.settings.absThreshold?`<span class="tag bad">${r.a.A}</span>`:r.a.A}</td><td>${r.a.J}</td><td>${r.a.R}</td><td>${r.a.A>=DB.settings.absThreshold?waBtn(r.s.parentPhone,L(`السلام عليكم، نخبركم أن ${fullName(r.s)} تغيب ${r.a.A} مرات خلال هذا الشهر. المرجو الحضور للإدارة. ${DB.settings.name}`,`Bonjour, ${fullName(r.s)} cumule ${r.a.A} absences ce mois-ci. Merci de passer à l'administration. ${DB.settings.nameFr}`),L('استدعاء','Convoquer')):''}</td></tr>`).join('')}</table></div>`;
+ }
+ return h;
+}
+function allPresent(){Object.keys(ATTD).forEach(k=>{if(k!=='_k')ATTD[k]='P'});render()}
+function saveAtt(cid,date){DB.attendance[date]=DB.attendance[date]||{};Object.keys(ATTD).forEach(k=>{if(k!=='_k')DB.attendance[date][k]=ATTD[k]});ATTD={};toast(L('تم حفظ الحضور','Présence enregistrée'));commit(L('تسجيل الحضور: ','Présence: ')+clsName(cid)+' '+fmtD(date))}
+function tplAbs(s,date,code){return code==='R'?L(`السلام عليكم، نخبركم أن ابنكم/ابنتكم ${fullName(s)} وصل(ت) متأخراً يوم ${fmtD(date)}. ${DB.settings.name}`,`Bonjour, votre enfant ${fullName(s)} est arrivé(e) en retard le ${fmtD(date)}. ${DB.settings.nameFr}`):L(`السلام عليكم، نخبركم أن ابنكم/ابنتكم ${fullName(s)} تغيب(ت) عن الدراسة يوم ${fmtD(date)}. المرجو التواصل مع الإدارة لتبرير الغياب. ${DB.settings.name}`,`Bonjour, nous vous informons que votre enfant ${fullName(s)} était absent(e) le ${fmtD(date)}. Merci de contacter l'administration pour justifier l'absence. ${DB.settings.nameFr}`)}
+function tplPay(s){return L(`السلام عليكم، نذكركم بأن المبلغ المتبقي في ذمة التلميذ(ة) ${fullName(s)} هو ${money(balanceOf(s))}. نشكركم على تفهمكم. ${DB.settings.name}`,`Bonjour, nous vous rappelons que le solde restant dû pour ${fullName(s)} est de ${money(balanceOf(s))}. Merci de votre compréhension. ${DB.settings.nameFr}`)}
+
+/* ============ FINANCE ============ */
+function vFinance(){
+ const t=curTab('finance','overview');
+ let h=tabs('finance',[['overview',L('نظرة عامة','Vue d\'ensemble')],['payments',L('الأداءات','Encaissements')],['unpaid',L('المتأخرون عن الأداء','Impayés')],['expenses',L('المصاريف','Dépenses')]]);
+ const mt=monthTotals(),totI=DB.payments.reduce((a,p)=>a+ +p.amount,0),totE=DB.expenses.reduce((a,p)=>a+ +p.amount,0),due=act().reduce((a,s)=>a+balanceOf(s),0);
+ if(t==='overview'){
+  h+=`<div class="grid k4"><div class="card kpi"><div class="i" style="background:var(--okb)">⬇️</div><div><b>${money(totI)}</b><span>${L('مجموع المداخيل','Total recettes')}</span></div></div><div class="card kpi"><div class="i" style="background:#fff0de">⬆️</div><div><b>${money(totE)}</b><span>${L('مجموع المصاريف','Total dépenses')}</span></div></div><div class="card kpi"><div class="i">📊</div><div><b style="color:${totI-totE>=0?'var(--ok)':'var(--bad)'}">${money(totI-totE)}</b><span>${L('الأرباح الصافية','Résultat net')}</span></div></div><div class="card kpi"><div class="i" style="background:var(--badb)">⏳</div><div><b>${money(due)}</b><span>${L('ديون التلاميذ','Créances élèves')}</span></div></div></div>
+  <div class="grid k2" style="margin-top:14px"><div class="card"><h3>${L('حسب الشهر','Par mois')}</h3>${chartMonths()}</div>
+  <div class="card"><h3>${L('تقرير المداخيل والمصاريف والأرباح','Recettes, dépenses & résultat')}</h3><div class="tw"><table class="tbl"><tr><th>${L('الشهر','Mois')}</th><th>${L('مداخيل','Recettes')}</th><th>${L('مصاريف','Dépenses')}</th><th>${L('الربح','Résultat')}</th></tr>${mt.map(x=>`<tr><td>${mName(x.m)}</td><td>${num(x.inc)}</td><td>${num(x.exp)}</td><td style="color:${x.inc-x.exp>=0?'var(--ok)':'var(--bad)'}">${num(x.inc-x.exp)}</td></tr>`).join('')}</table></div><div style="margin-top:10px"><button class="btn" onclick="docFinance()">🖨 ${L('طباعة التقرير','Imprimer le rapport')}</button></div></div>
+  <div class="card"><h3>${L('المداخيل حسب النوع','Recettes par type')}</h3>${Object.keys(PAYT).map(k=>{const v=DB.payments.filter(p=>p.type===k).reduce((a,p)=>a+ +p.amount,0);return `<div style="margin-bottom:9px"><div class="row"><span>${L(PAYT[k][0],PAYT[k][1])}</span><span class="sp"></span><b>${money(v)}</b></div><div class="prog"><i style="width:${totI?v/totI*100:0}%"></i></div></div>`}).join('')}</div>
+  <div class="card"><h3>${L('المصاريف حسب الفئة','Dépenses par catégorie')}</h3>${Object.keys(EXPC).map(k=>{const v=DB.expenses.filter(p=>p.category===k).reduce((a,p)=>a+ +p.amount,0);return v?`<div style="margin-bottom:9px"><div class="row"><span>${L(EXPC[k][0],EXPC[k][1])}</span><span class="sp"></span><b>${money(v)}</b></div><div class="prog"><i style="background:#f0a23b;width:${totE?v/totE*100:0}%"></i></div></div>`:''}).join('')||'<div class="empty">—</div>'}</div></div>`;
+ }else if(t==='payments'){
+  const mo=S.f.pm||'';const list=DB.payments.filter(p=>!mo||p.date.startsWith(mo)).sort((a,b)=>b.date.localeCompare(a.date));
+  h+=`<div class="row" style="margin-bottom:12px"><input class="inp" type="month" value="${mo}" onchange="S.f.pm=this.value;render()"><span class="muted">${list.length} · <b>${money(list.reduce((a,p)=>a+ +p.amount,0))}</b></span><span class="sp"></span><button class="btn ok" onclick="paymentForm()">+ ${L('تسجيل أداء','Nouvel encaissement')}</button></div>
+  <div class="tw"><table class="tbl"><tr><th>${L('رقم الوصل','N° reçu')}</th><th>${L('التاريخ','Date')}</th><th>${L('التلميذ','Élève')}</th><th>${L('النوع','Type')}</th><th>${L('الشهر','Mois')}</th><th>${L('المبلغ','Montant')}</th><th>${L('الطريقة','Mode')}</th><th></th></tr>${list.map(p=>`<tr><td>${esc(p.no)}</td><td>${fmtD(p.date)}</td><td>${esc(fullName(stu(p.studentId)))}</td><td>${L(PAYT[p.type][0],PAYT[p.type][1])}</td><td>${p.month?mName(+p.month):''}</td><td><b>${money(p.amount)}</b></td><td>${L(PAYM[p.method][0],PAYM[p.method][1])}${p.ref?' · '+esc(p.ref):''}</td><td style="white-space:nowrap"><button class="btn s" onclick="docReceipt('${p.id}')">🧾</button> ${S.user.role==='director'?`<button class="btn s d" onclick="delPayment('${p.id}')">🗑</button>`:''}</td></tr>`).join('')||`<tr><td colspan="8" class="empty">—</td></tr>`}</table></div>`;
+ }else if(t==='unpaid'){
+  const list=act().map(s=>({s,b:balanceOf(s),m:monthlyOf(s)})).filter(x=>x.b>0).sort((a,b)=>b.b-a.b);
+  h+=`<div class="row" style="margin-bottom:12px"><span class="muted">${L('محسوب على أساس','Calculé sur')} ${monthsElapsed()} ${L('شهر منذ شتنبر + واجب التسجيل','mois depuis septembre + inscription')}</span><span class="sp"></span><b>${list.length} ${L('تلميذ','élèves')} · ${money(list.reduce((a,x)=>a+x.b,0))}</b></div>
+  <div class="tw"><table class="tbl"><tr><th>${L('التلميذ','Élève')}</th><th>${L('القسم','Classe')}</th><th>${L('خاصو يخلص','Dû')}</th><th>${L('خلص','Payé')}</th><th>${L('باقي','Reste')}</th><th>${L('أشهر متأخرة','Mois en retard')}</th><th></th></tr>${list.map(x=>`<tr><td><a href="#" onclick="event.preventDefault();studentCard('${x.s.id}')">${esc(fullName(x.s))}</a></td><td>${esc(clsName(x.s.classId))}</td><td>${money(expectedOf(x.s))}</td><td>${money(paidOf(x.s))}</td><td><span class="tag bad">${money(x.b)}</span></td><td>${x.m?(x.b/x.m).toFixed(1):'—'}</td><td style="white-space:nowrap"><button class="btn s ok" onclick="paymentForm('${x.s.id}')">+ ${L('أداء','Encaisser')}</button> ${waBtn(x.s.parentPhone,tplPay(x.s),L('تذكير','Rappel'))}</td></tr>`).join('')||`<tr><td colspan="7" class="empty">${L('لا توجد ديون','Aucun impayé')} 🎉</td></tr>`}</table></div>`;
+ }else{
+  const mo=S.f.em||'';const list=DB.expenses.filter(p=>!mo||p.date.startsWith(mo)).sort((a,b)=>b.date.localeCompare(a.date));
+  h+=`<div class="row" style="margin-bottom:12px"><input class="inp" type="month" value="${mo}" onchange="S.f.em=this.value;render()"><span class="muted">${list.length} · <b>${money(list.reduce((a,p)=>a+ +p.amount,0))}</b></span><span class="sp"></span><button class="btn p" onclick="expenseForm()">+ ${L('مصروف جديد','Nouvelle dépense')}</button></div>
+  <div class="tw"><table class="tbl"><tr><th>${L('التاريخ','Date')}</th><th>${L('الفئة','Catégorie')}</th><th>${L('البيان','Libellé')}</th><th>${L('المبلغ','Montant')}</th><th></th></tr>${list.map(p=>`<tr><td>${fmtD(p.date)}</td><td><span class="tag">${L(EXPC[p.category][0],EXPC[p.category][1])}</span></td><td>${esc(p.label)}</td><td><b>${money(p.amount)}</b></td><td><button class="btn s d" onclick="delExpense('${p.id}')">🗑</button></td></tr>`).join('')||`<tr><td colspan="5" class="empty">—</td></tr>`}</table></div>`;
+ }
+ return h;
+}
+function paymentForm(sid){
+ const s=sid?stu(sid):null;const m=new Date().getMonth()+1;
+ modal(`💰 ${L('تسجيل أداء','Encaissement')}`,`<div class="fg" id="pyf">${selF(L('التلميذ','Élève'),'studentId',sid,stuOpts(),L('— اختر —','— choisir —'),'full','onchange="payHint(this.value)"')}<div class="full muted" id="payHint" style="font-size:12.5px">${s?payHintTxt(s):''}</div>
+ ${selF(L('نوع الواجب','Type de frais'),'type','month',mapOpts(PAYT),undefined,'','onchange="payAmt()"')}${selF(L('عن شهر','Mois'),'month',SM.includes(m)?m:9,SM.map(x=>[x,mName(x)]))}${inp(L('المبلغ','Montant'),'amount',s?baseMonthly(s):'','number','min="0" required')}${inp(L('التاريخ','Date'),'date',today(),'date')}${selF(L('طريقة الأداء','Mode de paiement'),'method','cash',mapOpts(PAYM))}${inp(L('رقم الشيك / التحويل','N° chèque / virement'),'ref','')}${inp(L('ملاحظة','Note'),'note','')}</div>`,
+ `<button class="btn" onclick="closeModal()">${L('إلغاء','Annuler')}</button><button class="btn ok" onclick="savePayment(false)">💾 ${L('حفظ','Enregistrer')}</button><button class="btn p" onclick="savePayment(true)">🧾 ${L('حفظ وإصدار الوصل','Enregistrer + reçu')}</button>`);
+}
+function payHintTxt(s){return `${L('خاصو يخلص','Dû')}: <b>${money(expectedOf(s))}</b> · ${L('خلص','Payé')}: <b>${money(paidOf(s))}</b> · ${L('باقي','Reste')}: <b style="color:var(--bad)">${money(balanceOf(s))}</b>`}
+function payHint(id){const s=stu(id);$('#payHint').innerHTML=s?payHintTxt(s):'';payAmt()}
+function payAmt(){const d=fd('#pyf'),s=stu(d.studentId);if(!s)return;const v={insc:DB.settings.inscFee,month:baseMonthly(s),transport:DB.settings.transportFee,canteen:DB.settings.canteenFee}[d.type];if(v!==undefined)document.querySelector('#pyf [name=amount]').value=v}
+function savePayment(rec){const d=fd('#pyf');if(!d.studentId||!(+d.amount>0))return toast(L('اختر التلميذ وأدخل المبلغ','Choisissez l\'élève et le montant'));DB.seq.receipt++;const p={id:uid(),no:`R${DB.settings.yearStart}-${String(DB.seq.receipt).padStart(4,'0')}`,...d,amount:+d.amount,month:['month','transport','canteen'].includes(d.type)?+d.month:''};DB.payments.push(p);closeModal();commit(L('أداء: ','Encaissement: ')+fullName(stu(d.studentId))+' '+money(p.amount));toast(L('تم تسجيل الأداء – وصل رقم ','Paiement enregistré – reçu ')+p.no);if(rec)docReceipt(p.id)}
+function delPayment(id){ask(L('حذف هذا الأداء؟','Supprimer cet encaissement ?'),()=>{const p=DB.payments.find(x=>x.id===id);DB.payments=DB.payments.filter(x=>x.id!==id);commit(L('حذف أداء ','Suppression encaissement ')+p.no)})}
+function expenseForm(){modal(L('مصروف جديد','Nouvelle dépense'),`<div class="fg" id="exf">${selF(L('الفئة','Catégorie'),'category','other',mapOpts(EXPC))}${inp(L('البيان','Libellé'),'label','','text','required')}${inp(L('المبلغ','Montant'),'amount','','number','min="0"')}${inp(L('التاريخ','Date'),'date',today(),'date')}</div>`,`<button class="btn p" onclick="saveExpense()">💾 ${L('حفظ','Enregistrer')}</button>`,'sm')}
+function saveExpense(){const d=fd('#exf');if(!(+d.amount>0))return;DB.expenses.push({id:uid(),...d,amount:+d.amount});closeModal();commit(L('مصروف: ','Dépense: ')+d.label)}
+function delExpense(id){ask(L('حذف هذا المصروف؟','Supprimer cette dépense ?'),()=>{DB.expenses=DB.expenses.filter(x=>x.id!==id);commit(L('حذف مصروف','Suppression dépense'))})}
+
+/* ============ GRADES ============ */
+function results(cid,term){
+ const sts=studentsOf(cid),evs=DB.evals.filter(e=>e.classId===cid&&+e.term===+term);
+ const subs=DB.subjects.filter(sb=>evs.some(e=>e.subjectId===sb.id));
+ const rows=sts.map(s=>{const av={};let sum=0,cw=0;subs.forEach(sb=>{const ms=evs.filter(e=>e.subjectId===sb.id).map(e=>e.marks[s.id]).filter(m=>m!==''&&m!=null&&!isNaN(m)).map(Number);if(ms.length){const a=ms.reduce((x,y)=>x+y,0)/ms.length;av[sb.id]=a;sum+=a*(+sb.coef||1);cw+=(+sb.coef||1)}});return{s,av,avg:cw?sum/cw:null}});
+ const rk=rows.filter(r=>r.avg!=null).sort((a,b)=>b.avg-a.avg);rk.forEach((r,i)=>{r.rank=i+1;r.n=rk.length});
+ const subAvg={};subs.forEach(sb=>{const v=rows.map(r=>r.av[sb.id]).filter(x=>x!=null);subAvg[sb.id]=v.length?v.reduce((a,b)=>a+b,0)/v.length:null});
+ return{rows,subs,subAvg,classAvg:rk.length?rk.reduce((a,r)=>a+r.avg,0)/rk.length:null,ranked:rk};
+}
+function vGrades(){
+ const t=curTab('grades','entry');
+ let h=tabs('grades',[['entry',L('إدخال النقط','Saisie des notes')],['results',L('النتائج والترتيب','Résultats & classement')],['level',L('معدلات المستويات','Moyennes par niveau')]]);
+ if(!DB.classes.length)return h+`<div class="empty">${L('أضف الأقسام أولاً','Ajoutez d\'abord des classes')}</div>`;
+ const cid=S.f.gc||DB.classes[0].id,term=S.f.gt||'1';
+ const ctl=`<select class="inp" onchange="S.f.gc=this.value;render()">${opts(classOpts(),cid)}</select><select class="inp" onchange="S.f.gt=this.value;render()">${opts([['1',L('الدورة الأولى','1er semestre')],['2',L('الدورة الثانية','2e semestre')]],term)}</select>`;
+ if(t==='entry'){
+  const subj=S.f.gs||'';const evs=DB.evals.filter(e=>e.classId===cid&&+e.term===+term&&(!subj||e.subjectId===subj)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  h+=`<div class="row" style="margin-bottom:12px">${ctl}<select class="inp" onchange="S.f.gs=this.value;render()">${opts(subOpts(),subj,L('كل المواد','Toutes matières'))}</select><span class="sp"></span><button class="btn p" onclick="evalForm('','${cid}','${term}','${subj}')">+ ${L('فرض / امتحان جديد','Nouveau contrôle')}</button></div>
+  <div class="tw"><table class="tbl"><tr><th>${L('المادة','Matière')}</th><th>${L('العنوان','Intitulé')}</th><th>${L('التاريخ','Date')}</th><th>${L('النقط المدخلة','Notes saisies')}</th><th>${L('المعدل','Moyenne')}</th><th></th></tr>${evs.map(e=>{const v=Object.values(e.marks).filter(m=>m!==''&&!isNaN(m)).map(Number);return `<tr><td><span class="tag pri">${esc(subName(e.subjectId))}</span></td><td>${esc(e.title)}</td><td>${fmtD(e.date)}</td><td>${v.length}/${studentsOf(cid).length}</td><td>${v.length?f2(v.reduce((a,b)=>a+b,0)/v.length):'—'}</td><td style="white-space:nowrap"><button class="btn s" onclick="evalForm('${e.id}')">✏️ ${L('النقط','Notes')}</button> <button class="btn s d" onclick="delEval('${e.id}')">🗑</button></td></tr>`}).join('')||`<tr><td colspan="6" class="empty">${L('لا توجد فروض بعد','Aucun contrôle')}</td></tr>`}</table></div>`;
+ }else if(t==='results'){
+  const R=results(cid,term);
+  h+=`<div class="row" style="margin-bottom:12px">${ctl}<span class="tag pri">${L('معدل القسم','Moyenne de classe')}: ${f2(R.classAvg)}</span><span class="sp"></span><button class="btn" onclick="docBulletins('${cid}','${term}')">🖨 ${L('طباعة كل البيانات','Imprimer tous les bulletins')}</button></div>
+  <div class="tw"><table class="tbl"><tr><th>${L('الرتبة','Rang')}</th><th>${L('التلميذ','Élève')}</th>${R.subs.map(sb=>`<th title="coef ${sb.coef}">${esc(L(sb.ar,sb.fr))}<br><small>×${sb.coef}</small></th>`).join('')}<th>${L('المعدل العام','Moy. générale')}</th><th>${L('القرار','Décision')}</th><th>${L('ملاحظة الأستاذ','Appréciation')}</th><th></th></tr>
+  ${R.rows.slice().sort((a,b)=>(a.rank||999)-(b.rank||999)).map(r=>{const rk=`${cid}|${term}|${r.s.id}`;return `<tr><td><b>${r.rank||'—'}</b></td><td>${esc(fullName(r.s))}</td>${R.subs.map(sb=>`<td style="color:${r.av[sb.id]!=null&&r.av[sb.id]<10?'var(--bad)':''}">${f2(r.av[sb.id])}</td>`).join('')}<td><b>${f2(r.avg)}</b></td><td>${r.avg==null?'—':r.avg>=10?`<span class="tag ok">${L('ينتقل','Admis')}</span>`:`<span class="tag bad">${L('يكرر','Redouble')}</span>`}</td><td><input class="inp" style="width:160px" value="${esc(DB.remarks[rk]||'')}" placeholder="${appreciation(r.avg)}" onchange="DB.remarks['${rk}']=this.value;save()"></td><td><button class="btn s" onclick="docBulletin('${r.s.id}','${term}')">🖨</button></td></tr>`}).join('')}
+  <tr><td></td><td class="muted">${L('معدل المادة','Moy. matière')}</td>${R.subs.map(sb=>`<td class="muted">${f2(R.subAvg[sb.id])}</td>`).join('')}<td><b>${f2(R.classAvg)}</b></td><td colspan="3"></td></tr></table></div>`;
+ }else{
+  h+=`<div class="row" style="margin-bottom:12px"><select class="inp" onchange="S.f.gt=this.value;render()">${opts([['1',L('الدورة الأولى','1er semestre')],['2',L('الدورة الثانية','2e semestre')]],term)}</select></div><div class="grid k4">`;
+  CYCLES.forEach(cy=>{const cs=DB.classes.filter(c=>c.cycle===cy[0]);if(!cs.length)return;const all=[];h+=`<div class="card"><h3>${L(cy[1],cy[2])}</h3>${cs.map(c=>{const R=results(c.id,term);R.ranked.forEach(r=>all.push(r.avg));const pass=R.ranked.filter(r=>r.avg>=10).length;return `<div class="row" style="padding:5px 0"><span style="flex:1">${esc(c.name)}</span><b>${f2(R.classAvg)}</b><span class="tag ${pass===R.ranked.length?'ok':'warn'}">${pass}/${R.ranked.length}</span></div>`}).join('')}<div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px"><span style="flex:1">${L('معدل المستوى','Moyenne du cycle')}</span><b>${all.length?f2(all.reduce((a,b)=>a+b,0)/all.length):'—'}</b></div></div>`});
+  h+='</div>';
+ }
+ return h;
+}
+function evalForm(id,cid,term,subj){
+ const e=id?DB.evals.find(x=>x.id===id):{classId:cid,term,subjectId:subj||(DB.subjects[0]||{}).id,title:'',date:today(),marks:{}};
+ const sts=studentsOf(e.classId);
+ modal(`📝 ${esc(clsName(e.classId))} — ${id?esc(e.title):L('فرض جديد','Nouveau contrôle')}`,`<div class="fg" id="evf">${selF(L('المادة','Matière'),'subjectId',e.subjectId,subOpts())}${inp(L('العنوان','Intitulé'),'title',e.title,'text','placeholder="'+L('الفرض 1','Contrôle 1')+'"')}${inp(L('التاريخ','Date'),'date',e.date,'date')}${selF(L('الدورة','Semestre'),'term',e.term,[['1','1'],['2','2']])}</div>
+ <div class="tw" style="margin-top:14px"><table class="tbl"><tr><th>#</th><th>${L('التلميذ','Élève')}</th><th>${L('النقطة /20','Note /20')}</th></tr>${sts.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(fullName(s))}</td><td><input class="inp mk" style="width:90px" type="number" min="0" max="20" step="0.25" data-s="${s.id}" value="${e.marks[s.id]??''}" onkeydown="if(event.key==='Enter'){event.preventDefault();const a=[...document.querySelectorAll('.mk')];const n=a[a.indexOf(this)+1];n&&n.focus()}"></td></tr>`).join('')}</table></div>`,
+ `<button class="btn p" onclick="saveEval('${id||''}','${e.classId}')">💾 ${L('حفظ النقط','Enregistrer les notes')}</button>`)}
+function saveEval(id,cid){const d=fd('#evf');const marks={};let bad=false;document.querySelectorAll('.mk').forEach(i=>{const v=i.value;if(v!==''){const n=+v;if(n<0||n>20)bad=true;marks[i.dataset.s]=n}});if(bad)return toast(L('النقط يجب أن تكون بين 0 و 20','Les notes doivent être entre 0 et 20'));if(!d.title)d.title=subName(d.subjectId)+' '+fmtD(d.date);
+ if(id)Object.assign(DB.evals.find(x=>x.id===id),d,{marks});else DB.evals.push({id:uid(),classId:cid,...d,marks});closeModal();commit(L('إدخال نقط: ','Notes: ')+clsName(cid)+' – '+d.title)}
+function delEval(id){ask(L('حذف هذا الفرض ونقطه؟','Supprimer ce contrôle et ses notes ?'),()=>{DB.evals=DB.evals.filter(x=>x.id!==id);commit(L('حذف فرض','Suppression contrôle'))})}
+
+/* ============ TIMETABLE ============ */
+function vTimetable(){
+ if(!DB.classes.length)return `<div class="empty">${L('أضف الأقسام أولاً','Ajoutez d\'abord des classes')}</div>`;
+ const mode=S.f.ttMode||'c',cid=S.f.ttC||DB.classes[0].id,tid=S.f.ttT||(teachers()[0]||{}).id;
+ const edit=['director','admin'].includes(S.user.role);
+ let h=`<div class="row" style="margin-bottom:12px"><select class="inp" onchange="S.f.ttMode=this.value;render()">${opts([['c',L('حسب القسم','Par classe')],['t',L('حسب الأستاذ','Par enseignant')]],mode)}</select>${mode==='c'?`<select class="inp" onchange="S.f.ttC=this.value;render()">${opts(classOpts(),cid)}</select>`:`<select class="inp" onchange="S.f.ttT=this.value;render()">${opts(teachers().map(t=>[t.id,t.name]),tid)}</select>`}<span class="sp"></span><span class="muted" style="font-size:12.5px">${edit&&mode==='c'?L('اضغط على خانة لإضافة أو تعديل حصة','Cliquez sur une case pour ajouter/modifier'):''}</span><button class="btn" onclick="docTT('${mode}','${mode==='c'?cid:tid}')">🖨 ${L('طباعة','Imprimer')}</button></div>`;
+ h+=`<div class="tw">${ttGrid(mode,mode==='c'?cid:tid,edit)}</div>`;
+ if(mode==='t'&&tid){const ld=staffLoad(tid);h+=`<div class="muted" style="margin-top:8px">${L('مجموع الحصص الأسبوعية','Total heures/semaine')}: <b>${ld.h}</b></div>`}
+ return h;
+}
+function ttGrid(mode,id,edit){
+ return `<table class="tt"><tr><th style="width:90px"></th>${DAYS.map(d=>`<th>${L(d[0],d[1])}</th>`).join('')}</tr>${SLOTS.map((sl,si)=>`<tr><th>${sl}</th>${DAYS.map((_,di)=>{const k=di+'-'+si;let x=null,cn='';if(mode==='c')x=(DB.timetable[id]||{})[k];else{for(const c in DB.timetable){const y=DB.timetable[c][k];if(y&&y.teacherId===id){x=y;cn=clsName(c)}}}
+ return `<td ${edit&&mode==='c'?`onclick="ttCell('${id}','${k}')"`:''}>${x?`<div class="cell ${x.cancel?'cx':''}" style="background:${subColor(x.subjectId)}"><b>${esc(subName(x.subjectId))}</b><small>${mode==='c'?esc((stf(x.teacherId)||{}).name||''):esc(cn)}</small><small>${x.room?'🚪 '+esc(x.room):''}${x.cancel?' · '+L('ملغاة','Annulé'):''}${x.note?' · '+esc(x.note):''}</small></div>`:''}</td>`}).join('')}</tr>`).join('')}</table>`
+}
+const PAL=['#e9f0ff','#e7f7ef','#fff3d9','#f1ecff','#fde9e9','#e3f5f8','#f6efe4','#eef7dc','#fbe9f4','#ecedf3'];
+function subColor(id){const i=DB.subjects.findIndex(s=>s.id===id);return PAL[(i<0?0:i)%PAL.length]}
+function ttCell(cid,k){const x=(DB.timetable[cid]||{})[k]||{};const [di,si]=k.split('-');
+ modal(`🗓 ${esc(clsName(cid))} — ${L(DAYS[di][0],DAYS[di][1])} ${SLOTS[si]}`,`<div class="fg" id="ttf">${selF(L('المادة','Matière'),'subjectId',x.subjectId,subOpts(),'—')}${selF(L('الأستاذ','Enseignant'),'teacherId',x.teacherId,teachers().map(t=>[t.id,t.name]),'—')}${inp(L('القاعة','Salle'),'room',x.room||(cls(cid)||{}).room||'')}${inp(L('ملاحظة / تغيير','Note / changement'),'note',x.note)}<label class="cbx"><input type="checkbox" name="cancel" ${x.cancel?'checked':''}> ${L('حصة ملغاة','Séance annulée')}</label></div>`,
+ `${x.subjectId?`<button class="btn d" onclick="delTT('${cid}','${k}')">🗑 ${L('حذف','Supprimer')}</button>`:''}<button class="btn p" onclick="saveTT('${cid}','${k}')">💾 ${L('حفظ','Enregistrer')}</button>`,'sm')}
+function saveTT(cid,k){const d=fd('#ttf');if(!d.subjectId)return delTT(cid,k);
+ for(const c in DB.timetable){if(c===cid)continue;const y=DB.timetable[c][k];if(!y||y.cancel||d.cancel)continue;if(d.teacherId&&y.teacherId===d.teacherId)return toast(L(`تداخل: الأستاذ لديه حصة في ${clsName(c)} في نفس التوقيت`,`Conflit : l'enseignant a déjà cours en ${clsName(c)} à ce créneau`));if(d.room&&y.room===d.room)return toast(L(`تداخل: القاعة ${d.room} محجوزة لقسم ${clsName(c)}`,`Conflit : la salle ${d.room} est occupée par ${clsName(c)}`))}
+ DB.timetable[cid]=DB.timetable[cid]||{};DB.timetable[cid][k]=d;closeModal();commit(L('استعمال الزمن: ','Emploi du temps: ')+clsName(cid))}
+function delTT(cid,k){if(DB.timetable[cid])delete DB.timetable[cid][k];closeModal();commit()}
+
+/* ============ COMMUNICATION ============ */
+function vComms(){
+ const t=curTab('comms','compose');
+ let h=tabs('comms',[['compose',L('رسالة جديدة','Nouveau message')],['history',L('الرسائل المرسلة','Messages envoyés')]]);
+ if(t==='compose'){
+  const to=S.f.mt||'all';
+  h+=`<div class="grid k2"><div class="card"><h3>✉️ ${L('رسالة لأولياء الأمور','Message aux parents')}</h3><div class="grid" id="mf">${selF(L('المرسل إليهم','Destinataires'),'to',to,[['all',L('جميع الآباء','Tous les parents')],['class',L('آباء قسم معين','Parents d\'une classe')],['student',L('ولي أمر تلميذ','Parent d\'un élève')]],undefined,'','onchange="S.f.mt=this.value;render()"')}
+  ${to==='class'?selF(L('القسم','Classe'),'target','',classOpts()):to==='student'?selF(L('التلميذ','Élève'),'target','',stuOpts()):''}
+  ${selF(L('قالب جاهز','Modèle'),'tpl','',[['exam',L('إشعار بموعد امتحان','Annonce d\'examen')],['meeting',L('دعوة لاجتماع الآباء','Réunion parents')],['holiday',L('عطلة','Vacances')],['pay',L('تذكير بالأداء','Rappel de paiement')]],L('— بدون —','— aucun —'),'','onchange="applyTpl(this.value)"')}
+  ${inp(L('الموضوع','Objet'),'subject','')}<label class="fld"><span>${L('نص الرسالة','Message')}</span><textarea name="body" rows="6" id="mbody"></textarea></label>
+  <button class="btn p" onclick="sendMsg()">🟢 ${L('تحضير الإرسال عبر واتساب','Préparer l\'envoi WhatsApp')}</button></div></div>
+  <div class="card"><h3>ℹ️ ${L('كيف يعمل؟','Fonctionnement')}</h3><p class="muted">${L('التطبيق كيوجد لكل ولي أمر رابط واتساب فيه الرسالة جاهزة، وأنت كتضغط وكتصيفط من هاتفك أو من WhatsApp Web. الرسائل كتبقى محفوظة في السجل.','L\'application prépare pour chaque parent un lien WhatsApp avec le message pré-rempli ; vous l\'envoyez depuis votre téléphone ou WhatsApp Web. Les messages sont archivés.')}</p></div></div>`;
+ }else{
+  h+=DB.messages.slice().reverse().map(m=>`<div class="card" style="margin-bottom:10px"><div class="row"><b>${esc(m.subject||'—')}</b><span class="sp"></span><span class="tag">${m.to==='all'?L('الجميع','Tous'):m.to==='class'?esc(clsName(m.target)):esc(fullName(stu(m.target)))}</span><span class="muted" style="font-size:12px">${fmtD(m.date)}</span><button class="btn s" onclick="waList('${m.id}')">🟢 WhatsApp</button><button class="btn s d" onclick="delMsg('${m.id}')">🗑</button></div><div style="margin-top:6px;white-space:pre-wrap">${esc(m.body)}</div></div>`).join('')||`<div class="empty">—</div>`;
+ }
+ return h;
+}
+function applyTpl(k){const s=DB.settings,n=L(s.name,s.nameFr);const T={exam:L(`السلام عليكم،\nنخبركم أن امتحانات الدورة ستنطلق يوم ...... المرجو حث أبنائكم على المراجعة الجيدة.\n${n}`,`Bonjour,\nNous vous informons que les examens du semestre débuteront le ...... Merci d'encourager vos enfants à bien réviser.\n${n}`),meeting:L(`السلام عليكم،\nيسر إدارة المؤسسة دعوتكم لحضور اجتماع الآباء والأمهات يوم ...... على الساعة ......\nحضوركم مهم.\n${n}`,`Bonjour,\nLa direction a le plaisir de vous inviter à la réunion des parents le ...... à ......\nVotre présence est importante.\n${n}`),holiday:L(`السلام عليكم،\nنخبركم أن العطلة تبتدئ من ...... إلى ......، وتستأنف الدراسة يوم ......\n${n}`,`Bonjour,\nLes vacances débutent le ...... jusqu'au ......; reprise des cours le ......\n${n}`),pay:L(`السلام عليكم،\nنذكركم بضرورة أداء الواجبات الشهرية قبل يوم 10 من كل شهر.\nشكراً لتفهمكم.\n${n}`,`Bonjour,\nNous vous rappelons que les mensualités sont à régler avant le 10 de chaque mois.\nMerci de votre compréhension.\n${n}`)};if(T[k])$('#mbody').value=T[k]}
+function msgRecipients(m){let sts=act();if(m.to==='class')sts=sts.filter(s=>s.classId===m.target);if(m.to==='student')sts=sts.filter(s=>s.id===m.target);const seen=new Set();return sts.filter(s=>{const p=normPhone(s.parentPhone);if(!p||seen.has(p))return false;seen.add(p);return true})}
+function sendMsg(){const d=fd('#mf');if(!d.body)return toast(L('اكتب نص الرسالة','Écrivez le message'));if(d.to!=='all'&&!d.target)return toast(L('اختر المرسل إليهم','Choisissez les destinataires'));const m={id:uid(),date:today(),to:d.to,target:d.target||'',subject:d.subject,body:d.body};DB.messages.push(m);commit(L('رسالة للآباء: ','Message parents: ')+(d.subject||''));waList(m.id)}
+function waList(id){const m=DB.messages.find(x=>x.id===id),r=msgRecipients(m);modal(`🟢 ${L('إرسال عبر واتساب','Envoyer via WhatsApp')} — ${r.length}`,`<p class="muted">${L('اضغط على كل زر لفتح واتساب برسالة جاهزة:','Cliquez pour ouvrir WhatsApp avec le message pré-rempli :')}</p>${r.map(s=>`<div class="row" style="padding:5px 0;border-bottom:1px dashed var(--line)"><span style="flex:1">${esc(s.guardian||s.fatherName||'')} — ${esc(fullName(s))} <span class="muted" dir="ltr">${esc(s.parentPhone)}</span></span>${waBtn(s.parentPhone,(m.subject?m.subject+'\n':'')+m.body,L('إرسال','Envoyer'))}</div>`).join('')||`<div class="empty">${L('لا توجد أرقام هواتف','Aucun numéro')}</div>`}`)}
+function delMsg(id){DB.messages=DB.messages.filter(m=>m.id!==id);commit()}
+
+/* ============ SERVICES ============ */
+function vServices(){
+ const t=curTab('services','transport');
+ let h=tabs('services',[['transport','🚌 '+L('النقل المدرسي','Transport scolaire')],['canteen','🍽 '+L('المطعم المدرسي','Cantine')]]);
+ if(t==='transport'){
+  h+=`<div class="row" style="margin-bottom:12px"><span class="muted">${L('واجب النقل الشهري','Frais mensuels')}: <b>${money(DB.settings.transportFee)}</b></span><span class="sp"></span><button class="btn p" onclick="busForm()">+ ${L('حافلة / خط جديد','Nouveau bus / ligne')}</button></div><div class="grid k2">`;
+  h+=DB.buses.map(b=>{const sts=act().filter(s=>s.busId===b.id);return `<div class="card"><div class="row"><h3 style="margin:0">🚌 ${esc(b.name)}</h3><span class="sp"></span><span class="tag ${sts.length>(+b.seats||99)?'bad':'pri'}">${sts.length}/${b.seats||'—'}</span><button class="btn s" onclick="busForm('${b.id}')">✏️</button><button class="btn s d" onclick="delBus('${b.id}')">🗑</button></div><div class="muted" style="margin:8px 0;font-size:12.5px">👨‍✈️ ${esc(b.driver||'—')} <span dir="ltr">${esc(b.phone||'')}</span> · 🚐 ${esc(b.plate||'')}<br>📍 ${esc(b.route||'')}</div><div class="tw"><table class="tbl"><tr><th>${L('التلميذ','Élève')}</th><th>${L('المحطة','Arrêt')}</th>${isMoney()?`<th>${L('الأداء','Paiement')}</th>`:''}</tr>${sts.map(s=>{const pm=DB.payments.filter(p=>p.studentId===s.id&&p.type==='transport').length;return `<tr><td>${esc(fullName(s))}<div class="muted" style="font-size:11.5px">${esc(clsName(s.classId))}</div></td><td>${esc(s.address||'—')}</td>${isMoney()?`<td>${pm>=monthsElapsed()?`<span class="tag ok">${pm}/${monthsElapsed()}</span>`:`<span class="tag bad">${pm}/${monthsElapsed()}</span>`}</td>`:''}</tr>`}).join('')||`<tr><td colspan="3" class="empty">—</td></tr>`}</table></div></div>`}).join('')||`<div class="empty">${L('لا توجد حافلات','Aucun bus')}</div>`;
+  h+='</div>';
+ }else{
+  const sts=act().filter(s=>s.canteen);
+  h+=`<div class="grid k2"><div class="card"><div class="row"><h3 style="margin:0">${L('لائحة المستفيدين','Bénéficiaires')} (${sts.length})</h3><span class="sp"></span><span class="muted">${money(DB.settings.canteenFee)}/${L('شهر','mois')}</span></div><div class="tw" style="margin-top:10px"><table class="tbl"><tr><th>${L('التلميذ','Élève')}</th><th>${L('القسم','Classe')}</th><th>${L('الحساسية / ملاحظات','Allergies / notes')}</th>${isMoney()?`<th>${L('الاشتراك','Abonnement')}</th>`:''}</tr>${sts.map(s=>{const pm=DB.payments.filter(p=>p.studentId===s.id&&p.type==='canteen').length;return `<tr><td>${esc(fullName(s))}</td><td>${esc(clsName(s.classId))}</td><td>${s.allergies?`<span class="tag warn">⚠️ ${esc(s.allergies)}</span>`:'—'}</td>${isMoney()?`<td><span class="tag ${pm>=monthsElapsed()?'ok':'bad'}">${pm}/${monthsElapsed()}</span></td>`:''}</tr>`}).join('')||`<tr><td colspan="4" class="empty">—</td></tr>`}</table></div></div>
+  <div class="card"><h3>🍲 ${L('الوجبات اليومية (قائمة الأسبوع)','Menu de la semaine')}</h3><div class="grid">${DAYS.slice(0,6).map((d,i)=>`<label class="fld"><span>${L(d[0],d[1])}</span><input class="inp" value="${esc(DB.menu[i]||'')}" onchange="DB.menu[${i}]=this.value;save()"></label>`).join('')}</div><div class="muted" style="font-size:12px;margin-top:8px">${L('يحفظ تلقائياً ويظهر في فضاء الآباء','Enregistré automatiquement, visible par les parents')}</div></div></div>`;
+ }
+ return h;
+}
+function busForm(id){const b=id?DB.buses.find(x=>x.id===id):{};modal(L('حافلة / خط نقل','Bus / ligne'),`<div class="fg" id="bf">${inp(L('اسم الخط','Nom de la ligne'),'name',b.name,'text','required')}${inp(L('السائق','Chauffeur'),'driver',b.driver)}${inp(L('هاتف السائق','Tél. chauffeur'),'phone',b.phone,'tel')}${inp(L('رقم التسجيل','Immatriculation'),'plate',b.plate)}${inp(L('عدد المقاعد','Places'),'seats',b.seats,'number')}${inp(L('المحطات','Arrêts / itinéraire'),'route',b.route,'text','','full')}</div>`,`<button class="btn p" onclick="saveBus('${id||''}')">💾 ${L('حفظ','Enregistrer')}</button>`,'sm')}
+function saveBus(id){const d=fd('#bf');if(!d.name)return;if(id)Object.assign(DB.buses.find(x=>x.id===id),d);else DB.buses.push({id:uid(),...d});closeModal();commit(L('النقل: ','Transport: ')+d.name)}
+function delBus(id){ask(L('حذف هذا الخط؟','Supprimer cette ligne ?'),()=>{DB.buses=DB.buses.filter(b=>b.id!==id);DB.students.forEach(s=>{if(s.busId===id)s.busId=''});commit()})}
+
+/* ============ INVENTORY ============ */
+const ITC={book:['الكتب المدرسية','Manuels scolaires'],library:['كتب المكتبة','Bibliothèque'],supplies:['اللوازم المدرسية','Fournitures'],furniture:['المعدات والأثاث','Mobilier & équipement'],it:['الحواسيب والطابعات','Informatique'],other:['أخرى','Autre']};
+function vInventory(){
+ const t=curTab('inventory','items');
+ let h=tabs('inventory',[['items',L('المخزون','Articles')],['moves',L('سجل الدخول والخروج','Mouvements')]]);
+ if(t==='items'){const fc=S.f.ic||'';const list=DB.items.filter(i=>!fc||i.category===fc).sort((a,b)=>a.name.localeCompare(b.name));
+  h+=`<div class="row" style="margin-bottom:12px"><select class="inp" onchange="S.f.ic=this.value;render()">${opts(mapOpts(ITC),fc,L('كل الفئات','Toutes catégories'))}</select><span class="sp"></span><button class="btn" onclick="docInventory()">🖨 ${L('الجرد السنوي','Inventaire annuel')}</button><button class="btn p" onclick="itemForm()">+ ${L('مادة جديدة','Nouvel article')}</button></div>
+  <div class="tw"><table class="tbl"><tr><th>${L('المادة','Article')}</th><th>${L('الفئة','Catégorie')}</th><th>${L('الكمية','Qté')}</th><th>${L('الحالة','État')}</th><th>${L('المكان','Emplacement')}</th><th></th></tr>${list.map(i=>`<tr><td><b>${esc(i.name)}</b>${i.ref?`<div class="muted" style="font-size:11.5px">${esc(i.ref)}</div>`:''}</td><td>${L(ITC[i.category][0],ITC[i.category][1])}</td><td>${i.min&&+i.qty<=+i.min?`<span class="tag bad">${i.qty}</span>`:`<b>${i.qty}</b>`}</td><td>${esc(i.state||'')}</td><td>${esc(i.location||'')}</td><td style="white-space:nowrap"><button class="btn s ok" onclick="moveForm('${i.id}',1)">＋</button> <button class="btn s" onclick="moveForm('${i.id}',-1)">－</button> <button class="btn s" onclick="itemForm('${i.id}')">✏️</button> <button class="btn s d" onclick="delItem('${i.id}')">🗑</button></td></tr>`).join('')||`<tr><td colspan="6" class="empty">—</td></tr>`}</table></div>`;
+ }else{
+  h+=`<div class="tw"><table class="tbl"><tr><th>${L('التاريخ','Date')}</th><th>${L('المادة','Article')}</th><th>${L('الحركة','Mouvement')}</th><th>${L('ملاحظة / المستفيد','Note / bénéficiaire')}</th></tr>${DB.moves.slice().reverse().map(m=>`<tr><td>${fmtD(m.date)}</td><td>${esc((DB.items.find(i=>i.id===m.itemId)||{}).name||'—')}</td><td>${m.qty>0?`<span class="tag ok">+${m.qty}</span>`:`<span class="tag bad">${m.qty}</span>`}</td><td>${esc(m.note)}</td></tr>`).join('')||`<tr><td colspan="4" class="empty">—</td></tr>`}</table></div>`;
+ }
+ return h;
+}
+function itemForm(id){const i=id?DB.items.find(x=>x.id===id):{category:'supplies',qty:0};modal(L('مادة في المخزون','Article'),`<div class="fg" id="itf">${inp(L('الاسم','Désignation'),'name',i.name,'text','required')}${selF(L('الفئة','Catégorie'),'category',i.category,mapOpts(ITC))}${inp(L('المرجع / الرقم التسلسلي','Réf. / N° série'),'ref',i.ref)}${id?'':inp(L('الكمية الأولية','Quantité initiale'),'qty',i.qty,'number')}${inp(L('الحد الأدنى للتنبيه','Seuil d\'alerte'),'min',i.min,'number')}${inp(L('الحالة','État'),'state',i.state,'text','placeholder="'+L('جيدة','Bon')+'"')}${inp(L('المكان','Emplacement'),'location',i.location)}</div>`,`<button class="btn p" onclick="saveItem('${id||''}')">💾 ${L('حفظ','Enregistrer')}</button>`,'sm')}
+function saveItem(id){const d=fd('#itf');if(!d.name)return;if(id)Object.assign(DB.items.find(x=>x.id===id),d);else{const it={id:uid(),...d,qty:+d.qty||0};DB.items.push(it);if(it.qty)DB.moves.push({id:uid(),itemId:it.id,date:today(),qty:it.qty,note:L('رصيد أولي','Stock initial')})}closeModal();commit(L('المخزون: ','Stock: ')+d.name)}
+function delItem(id){ask(L('حذف هذه المادة؟','Supprimer cet article ?'),()=>{DB.items=DB.items.filter(x=>x.id!==id);commit()})}
+function moveForm(id,sg){const i=DB.items.find(x=>x.id===id);modal(`${sg>0?'＋ '+L('دخول','Entrée'):'－ '+L('خروج','Sortie')} — ${esc(i.name)}`,`<div class="fg" id="mvf">${inp(L('الكمية','Quantité'),'qty',1,'number','min="1"')}${inp(L('التاريخ','Date'),'date',today(),'date')}${inp(sg>0?L('المصدر / المورد','Fournisseur'):L('المستفيد / القسم','Bénéficiaire / classe'),'note','','text','','full')}</div>`,`<button class="btn p" onclick="saveMove('${id}',${sg})">💾 ${L('حفظ','Enregistrer')}</button>`,'sm')}
+function saveMove(id,sg){const d=fd('#mvf'),i=DB.items.find(x=>x.id===id),q=Math.abs(+d.qty||0)*sg;if(!q)return;if(+i.qty+q<0)return toast(L('الكمية غير كافية في المخزون','Stock insuffisant'));i.qty=+i.qty+q;DB.moves.push({id:uid(),itemId:id,date:d.date,qty:q,note:d.note});closeModal();commit(L('حركة مخزون: ','Mouvement: ')+i.name+' '+q)}
+
+/* ============ DOCUMENTS ============ */
+function vDocuments(){
+ const D=[['cert','🎓',L('شهادة مدرسية','Certificat de scolarité'),'s'],['rad','📤',L('شهادة المغادرة','Certificat de radiation'),'s'],['contract','📄',L('عقد التسجيل','Contrat d\'inscription'),'s'],['bulletin','📊',L('بيان النقط','Bulletin de notes'),'s'],['clist','📋',L('لائحة التلاميذ','Liste des élèves'),'c'],['tlist','👩‍🏫',L('لائحة الأساتذة والموظفين','Liste du personnel'),''],['abs','🚫',L('تقرير الغياب الشهري','Rapport d\'absences'),'c'],['fin','💰',L('تقرير المداخيل والمصاريف','Rapport financier'),'m'],['ins','🛡️',L('لائحة التأمين المدرسي','Liste assurance scolaire'),''],['pv','🗒️',L('محضر اجتماع','Procès-verbal de réunion'),''],['sfile','📁',L('ملف تلميذ كامل','Fiche élève complète'),'s'],['stfile','🗂️',L('ملف موظف','Fiche personnel'),'p']];
+ const vis=D.filter(d=>d[0]!=='fin'||isMoney());
+ const k=S.f.dk||'cert',d=D.find(x=>x[0]===k);
+ return `<div class="grid k2"><div class="card"><h3>${L('اختر الوثيقة','Choisir le document')}</h3><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">${vis.map(x=>`<button class="btn" style="flex-direction:column;padding:12px;${x[0]===k?'border-color:var(--pri);background:var(--pri2)':''}" onclick="S.f.dk='${x[0]}';render()"><span style="font-size:22px">${x[1]}</span><span style="white-space:normal;text-align:center;font-size:12.5px">${x[2]}</span></button>`).join('')}</div></div>
+ <div class="card"><h3>${d[1]} ${d[2]}</h3><div class="grid" id="dcf">
+ ${d[3]==='s'?selF(L('التلميذ','Élève'),'sid','',stuOpts().concat(DB.students.filter(s=>s.status!=='active').map(s=>[s.id,fullName(s)+' ('+L(STATUS[s.status][0],STATUS[s.status][1])+')'])),L('— اختر —','— choisir —')):''}
+ ${d[3]==='c'?selF(L('القسم','Classe'),'cid','',classOpts()):''}${k==='abs'?inp(L('الشهر','Mois'),'mo',today().slice(0,7),'month'):''}${k==='bulletin'?selF(L('الدورة','Semestre'),'term','1',[['1','1'],['2','2']]):''}
+ ${d[3]==='p'?selF(L('الموظف','Membre'),'pid','',DB.staff.map(s=>[s.id,s.name]),'—'):''}
+ ${k==='rad'?inp(L('تاريخ المغادرة','Date de départ'),'date',today(),'date')+inp(L('سبب المغادرة','Motif'),'reason',L('بطلب من ولي الأمر','À la demande du tuteur')):''}
+ ${k==='pv'?inp(L('موضوع الاجتماع','Objet'),'subject','')+inp(L('التاريخ','Date'),'date',today(),'date')+inp(L('الحاضرون','Présents'),'present','')+txtF(L('جدول الأعمال والقرارات','Ordre du jour & décisions'),'body','',''):''}
+ <button class="btn p" onclick="genDoc('${k}')">🖨 ${L('إنشاء وطباعة','Générer & imprimer')}</button></div></div></div>`
+}
+function genDoc(k){const d=fd('#dcf');
+ const need=(v,m)=>{if(!v){toast(m);return true}};
+ if(['cert','rad','contract','bulletin','sfile'].includes(k)&&need(d.sid,L('اختر التلميذ','Choisissez l\'élève')))return;
+ if(k==='stfile'&&need(d.pid,L('اختر الموظف','Choisissez le membre')))return;
+ ({cert:()=>docCert(d.sid),rad:()=>docRad(d.sid,d.date,d.reason),contract:()=>docContract(d.sid),bulletin:()=>docBulletin(d.sid,d.term),clist:()=>docClassList(d.cid),tlist:docStaffList,abs:()=>docAbsReport(d.cid,d.mo),fin:docFinance,ins:docInsurance,pv:()=>docPV(d),sfile:()=>docStudentFile(d.sid),stfile:()=>docStaffFile(d.pid)})[k]()}
+function dHead(){const s=DB.settings;return `<div class="dh"><div style="text-align:left;direction:ltr"><b>${esc(s.nameFr)}</b><br>${esc(s.address)} ${esc(s.city)}<br>${s.phone?'Tél : '+esc(s.phone):''}<br>${L('السنة الدراسية','Année scolaire')} ${yearLbl()}</div><div style="font-size:40px">🏫</div><div style="text-align:right;direction:rtl"><b>${esc(s.name)}</b><br>${esc(s.address)} ${esc(s.city)}<br>${s.phone?'الهاتف: '+esc(s.phone):''}${s.auth?'<br>'+esc(s.auth):''}</div></div>`}
+const dSig=(a,b)=>`<div class="sig"><div>${a||''}</div><div style="text-align:center">${b||'Le Directeur / المدير'}<br><br><br>..........................</div></div>`;
+const dCity=()=>`${esc(DB.settings.city||'..........')}, le ${fmtD(today())}`;
+function showDoc(title,html){$('#print').innerHTML=html;modal(`🖨 ${title}`,`<div class="docprev"><div class="doc-wrap">${html}</div></div>`,`<button class="btn" onclick="closeModal()">${L('إغلاق','Fermer')}</button><button class="btn" onclick="copyDocText()">📋 ${L('نسخ النص','Copier le texte')}</button><button class="btn p" onclick="doPrint()">🖨 ${L('طباعة / PDF','Imprimer / PDF')}</button>`)}
+function doPrint(){try{window.print()}catch(e){}setTimeout(()=>toast(L('إذا لم تظهر نافذة الطباعة، افتح التطبيق في متصفح مستقل (GitHub Pages)','Si l\'impression ne s\'ouvre pas, ouvrez l\'app dans un navigateur (GitHub Pages)')),400)}
+function copyDocText(){try{navigator.clipboard.writeText($('#print').innerText).then(()=>toast(L('تم النسخ','Copié')),()=>toast('✗'))}catch(e){toast('✗')}}
+function sRow(s){const c=cls(s.classId);return `<table><tr><td><b>Nom et prénom / الاسم الكامل</b></td><td>${esc(fullName(s))}</td></tr><tr><td><b>Né(e) le / تاريخ ومكان الازدياد</b></td><td>${fmtD(s.birth)} ${s.birthPlace?'à '+esc(s.birthPlace):''}</td></tr><tr><td><b>Code Massar / رقم مسار</b></td><td>${esc(s.massar||'—')}</td></tr><tr><td><b>Classe / القسم</b></td><td>${esc(clsName(s.classId))} ${c?'('+esc(L(CYCLES.find(x=>x[0]===c.cycle)[1],CYCLES.find(x=>x[0]===c.cycle)[2]))+')':''}</td></tr></table>`}
+function docCert(id){const s=stu(id);showDoc(L('شهادة مدرسية','Certificat'),`<div class="doc">${dHead()}<div class="dt">CERTIFICAT DE SCOLARITÉ<br>شهادة مدرسية</div><p>Le Directeur de l'établissement <b>${esc(DB.settings.nameFr)}</b> certifie que l'élève :</p>${sRow(s)}<p>est régulièrement inscrit(e) dans notre établissement depuis le <b>${fmtD(s.regDate)}</b> et poursuit ses études au titre de l'année scolaire <b>${yearLbl()}</b>.</p><p dir="rtl" style="text-align:right">يشهد مدير المؤسسة أن التلميذ(ة) المذكور(ة) أعلاه يتابع دراسته بانتظام بالمؤسسة برسم السنة الدراسية ${yearLbl()}.</p><p>Ce certificat est délivré à l'intéressé(e) pour servir et valoir ce que de droit.</p>${dSig(dCity())}</div>`);log(L('شهادة مدرسية: ','Certificat: ')+fullName(s));save()}
+function docRad(id,date,reason){const s=stu(id);showDoc(L('شهادة المغادرة','Radiation'),`<div class="doc">${dHead()}<div class="dt">CERTIFICAT DE RADIATION<br>شهادة المغادرة</div><p>Le Directeur de l'établissement <b>${esc(DB.settings.nameFr)}</b> certifie que l'élève :</p>${sRow(s)}<p>inscrit(e) le <b>${fmtD(s.regDate)}</b>, a quitté l'établissement le <b>${fmtD(date)}</b>.</p><p>Motif / السبب : <b>${esc(reason)}</b></p><p>Situation financière / الوضعية المالية : <b>${balanceOf(s)>0?'Reste dû '+money(balanceOf(s)):'En règle / مسواة'}</b></p>${dSig(dCity())}</div>`);ask(L(`هل تريد تغيير حالة ${esc(fullName(s))} إلى "منسحب"؟`,`Passer ${esc(fullName(s))} au statut « Retiré » ?`),()=>{s.status='withdrawn';s.leftDate=date;commit(L('مغادرة: ','Radiation: ')+fullName(s));docRad(id,date,reason)})}
+function docContract(id){const s=stu(id),S2=DB.settings;showDoc(L('عقد التسجيل','Contrat'),`<div class="doc">${dHead()}<div class="dt">CONTRAT D'INSCRIPTION<br>عقد التسجيل</div><p>Entre <b>${esc(S2.nameFr)}</b>, ci-après « l'établissement », et M./Mme <b>${esc(s.guardian||s.fatherName||'..........')}</b>, CIN <b>${esc(s.cin||'..........')}</b>, tuteur légal, ci-après « le tuteur », il a été convenu ce qui suit :</p>${sRow(s)}<p><b>Article 1 – Frais.</b></p><table><tr><th>Désignation</th><th>Montant</th></tr><tr><td>Frais d'inscription / واجب التسجيل</td><td>${money(S2.inscFee)}</td></tr><tr><td>Mensualité / الواجب الشهري (10 mois)</td><td>${money(baseMonthly(s))}</td></tr>${s.busId?`<tr><td>Transport scolaire / النقل</td><td>${money(S2.transportFee)} / mois</td></tr>`:''}${s.canteen?`<tr><td>Cantine / المطعم</td><td>${money(S2.canteenFee)} / mois</td></tr>`:''}<tr><td><b>Total mensuel</b></td><td><b>${money(monthlyOf(s))}</b></td></tr></table><p><b>Article 2 – Paiement.</b> Les mensualités sont payables d'avance avant le 10 de chaque mois.</p><p><b>Article 3 – Règlement intérieur.</b> Le tuteur déclare avoir pris connaissance du règlement intérieur et s'engage à le respecter.</p><p><b>Article 4 – Durée.</b> Le présent contrat est conclu pour l'année scolaire ${yearLbl()}.</p>${dSig('Le tuteur / ولي الأمر<br><br><br>..........................','L\'établissement / المؤسسة')}<p style="text-align:center;margin-top:20px">${dCity()}</p></div>`)}
+function bulletinHTML(id,term){const s=stu(id),R=results(s.classId,term),r=R.rows.find(x=>x.s.id===id)||{av:{}},rk=`${s.classId}|${term}|${id}`;return `<div class="doc pb">${dHead()}<div class="dt">BULLETIN DE NOTES – ${term==1?'1er':'2e'} semestre<br>بيان النقط – الدورة ${term==1?'الأولى':'الثانية'}</div>${sRow(s)}<table><tr><th>Matière / المادة</th><th>Coef.</th><th>Moyenne /20</th><th>Moy. classe</th><th>Appréciation</th></tr>${R.subs.map(sb=>`<tr><td>${esc(sb.fr)} / ${esc(sb.ar)}</td><td style="text-align:center">${sb.coef}</td><td style="text-align:center"><b>${f2(r.av[sb.id])}</b></td><td style="text-align:center">${f2(R.subAvg[sb.id])}</td><td>${appreciation(r.av[sb.id])}</td></tr>`).join('')}</table><table><tr><td><b>Moyenne générale / المعدل العام</b></td><td><b>${f2(r.avg)}</b></td><td><b>Rang / الرتبة</b></td><td><b>${r.rank||'—'} / ${R.ranked.length}</b></td></tr><tr><td>Moyenne de la classe</td><td>${f2(R.classAvg)}</td><td>Absences (A/R)</td><td>${(()=>{const a=absOf(id);return a.A+' / '+a.R})()}</td></tr><tr><td colspan="4"><b>Appréciation / ملاحظة:</b> ${esc(DB.remarks[rk]||appreciation(r.avg))}${term==2&&r.avg!=null?' — <b>'+(r.avg>=10?'Admis(e) / ينتقل':'Redouble / يكرر')+'</b>':''}</td></tr></table>${dSig('Le tuteur / ولي الأمر')}</div>`}
+function docBulletin(id,term){const s=stu(id);if(!s.classId)return toast(L('التلميذ بدون قسم','Élève sans classe'));showDoc(L('بيان النقط','Bulletin'),bulletinHTML(id,term))}
+function docBulletins(cid,term){const sts=studentsOf(cid);showDoc(L('بيانات النقط','Bulletins')+' '+clsName(cid),sts.map(s=>bulletinHTML(s.id,term)).join(''))}
+function docClassList(cid){const sts=studentsOf(cid),c=cls(cid);showDoc(L('لائحة التلاميذ','Liste'),`<div class="doc">${dHead()}<div class="dt">LISTE DES ÉLÈVES – ${esc(c.name)}<br>لائحة التلاميذ</div><p>Professeur principal : ${esc((stf(c.mainTeacher)||{}).name||'—')} · Effectif : <b>${sts.length}</b></p><table><tr><th>N°</th><th>Nom et prénom</th><th>Massar</th><th>Sexe</th><th>Date de naissance</th><th>Tél. tuteur</th></tr>${sts.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(fullName(s))}</td><td>${esc(s.massar||'')}</td><td>${s.gender==='F'?'F':'M'}</td><td>${fmtD(s.birth)}</td><td>${esc(s.parentPhone||'')}</td></tr>`).join('')}</table>${dSig(dCity())}</div>`)}
+function docStaffList(){showDoc(L('لائحة الموظفين','Personnel'),`<div class="doc">${dHead()}<div class="dt">LISTE DU PERSONNEL<br>لائحة الأساتذة والموظفين</div><table><tr><th>N°</th><th>Nom</th><th>Fonction</th><th>Spécialité</th><th>Matières</th><th>Téléphone</th></tr>${DB.staff.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.name)}</td><td>${STAFFT[s.type][1]}</td><td>${esc(s.specialty||'')}</td><td>${(s.subjects||[]).map(x=>(sub(x)||{}).fr).join(', ')}</td><td>${esc(s.phone||'')}</td></tr>`).join('')}</table>${dSig(dCity())}</div>`)}
+function docAbsReport(cid,mo){const sts=studentsOf(cid);showDoc(L('تقرير الغياب','Absences'),`<div class="doc">${dHead()}<div class="dt">RAPPORT D'ABSENCES – ${esc(clsName(cid))} – ${MN.fr[+mo.slice(5)-1]} ${mo.slice(0,4)}<br>تقرير الغياب الشهري</div><table><tr><th>N°</th><th>Élève</th><th>Abs. non justifiées</th><th>Abs. justifiées</th><th>Retards</th></tr>${sts.map((s,i)=>{const a=absOf(s.id,mo+'-01',mo+'-31');return `<tr><td>${i+1}</td><td>${esc(fullName(s))}</td><td style="text-align:center">${a.A}</td><td style="text-align:center">${a.J}</td><td style="text-align:center">${a.R}</td></tr>`}).join('')}</table>${dSig(dCity(),'Le Surveillant général / الحارس العام')}</div>`)}
+function docAbsDay(date){const rec=DB.attendance[date]||{};const list=Object.keys(rec).filter(k=>rec[k]!=='P').map(k=>({s:stu(k),v:rec[k]})).filter(x=>x.s);showDoc(L('تقرير الغياب اليومي','Absences du jour'),`<div class="doc">${dHead()}<div class="dt">ABSENCES DU ${fmtD(date)}<br>تقرير الغياب اليومي</div><table><tr><th>Classe</th><th>Élève</th><th>État</th><th>Tél. tuteur</th></tr>${list.sort((a,b)=>clsName(a.s.classId).localeCompare(clsName(b.s.classId))).map(x=>`<tr><td>${esc(clsName(x.s.classId))}</td><td>${esc(fullName(x.s))}</td><td>${ATT[x.v][1]}</td><td>${esc(x.s.parentPhone||'')}</td></tr>`).join('')||'<tr><td colspan="4">Aucune absence / لا يوجد غياب</td></tr>'}</table>${dSig(dCity(),'Le Surveillant général')}</div>`)}
+function docFinance(){const mt=monthTotals(),tI=mt.reduce((a,x)=>a+x.inc,0),tE=mt.reduce((a,x)=>a+x.exp,0);showDoc(L('التقرير المالي','Rapport financier'),`<div class="doc">${dHead()}<div class="dt">RAPPORT FINANCIER ${yearLbl()}<br>تقرير المداخيل والمصاريف والأرباح</div><table><tr><th>Mois</th><th>Recettes</th><th>Dépenses</th><th>Résultat</th></tr>${mt.map(x=>`<tr><td>${MN.fr[x.m-1]}</td><td>${money(x.inc)}</td><td>${money(x.exp)}</td><td>${money(x.inc-x.exp)}</td></tr>`).join('')}<tr><th>TOTAL</th><th>${money(tI)}</th><th>${money(tE)}</th><th>${money(tI-tE)}</th></tr></table><table><tr><th colspan="2">Dépenses par catégorie</th></tr>${Object.keys(EXPC).map(k=>{const v=DB.expenses.filter(p=>p.category===k).reduce((a,p)=>a+ +p.amount,0);return v?`<tr><td>${EXPC[k][1]} / ${EXPC[k][0]}</td><td>${money(v)}</td></tr>`:''}).join('')}</table><p>Créances élèves (impayés) / ديون التلاميذ : <b>${money(act().reduce((a,s)=>a+balanceOf(s),0))}</b></p>${dSig(dCity(),'Le Comptable / المحاسب')}</div>`)}
+function docInsurance(){const sts=act().slice().sort((a,b)=>clsName(a.classId).localeCompare(clsName(b.classId))||fullName(a).localeCompare(fullName(b),'ar'));showDoc(L('لائحة التأمين','Assurance'),`<div class="doc">${dHead()}<div class="dt">LISTE DE L'ASSURANCE SCOLAIRE ${yearLbl()}<br>لائحة التأمين المدرسي</div><table><tr><th>N°</th><th>Nom et prénom</th><th>Date de naissance</th><th>Classe</th><th>Massar</th><th>Tuteur</th></tr>${sts.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(fullName(s))}</td><td>${fmtD(s.birth)}</td><td>${esc(clsName(s.classId))}</td><td>${esc(s.massar||'')}</td><td>${esc(s.guardian||s.fatherName||'')}</td></tr>`).join('')}</table><p>Effectif total : <b>${sts.length}</b></p>${dSig(dCity())}</div>`)}
+function docPV(d){showDoc(L('محضر اجتماع','PV'),`<div class="doc">${dHead()}<div class="dt">PROCÈS-VERBAL DE RÉUNION<br>محضر اجتماع</div><table><tr><td><b>Objet / الموضوع</b></td><td>${esc(d.subject)}</td></tr><tr><td><b>Date / التاريخ</b></td><td>${fmtD(d.date)}</td></tr><tr><td><b>Présents / الحاضرون</b></td><td>${esc(d.present)}</td></tr></table><p><b>Ordre du jour et décisions / جدول الأعمال والقرارات :</b></p><div style="white-space:pre-wrap;border:1px solid #000;padding:10px;min-height:200px">${esc(d.body)}</div>${dSig('Le rapporteur / المقرر')}</div>`)}
+function docStudentFile(id){const s=stu(id),pays=DB.payments.filter(p=>p.studentId===id),a=absOf(id);showDoc(L('ملف التلميذ','Fiche élève'),`<div class="doc">${dHead()}<div class="dt">FICHE DE L'ÉLÈVE<br>ملف التلميذ</div><div style="display:flex;gap:16px">${s.photo?`<img src="${s.photo}" style="width:100px;height:120px;object-fit:cover;border:1px solid #000">`:''}<div style="flex:1">${sRow(s)}</div></div><table><tr><td><b>Père / الأب</b></td><td>${esc(s.fatherName||'')}</td><td><b>Mère / الأم</b></td><td>${esc(s.motherName||'')}</td></tr><tr><td><b>Tuteur / CIN</b></td><td>${esc(s.guardian||'')} ${esc(s.cin||'')}</td><td><b>Téléphone</b></td><td>${esc(s.parentPhone||'')} ${esc(s.parentPhone2||'')}</td></tr><tr><td><b>Adresse</b></td><td colspan="3">${esc(s.address||'')}</td></tr><tr><td><b>Inscription</b></td><td>${fmtD(s.regDate)}</td><td><b>Établ. précédent</b></td><td>${esc(s.prevSchool||'')}</td></tr><tr><td><b>Santé / allergies</b></td><td colspan="3">${esc(s.allergies||'—')}</td></tr><tr><td><b>Dossier</b></td><td colspan="3">${REQDOCS.map((d,i)=>((s.docs||[]).includes(i)?'☑':'☐')+' '+d[1]).join(' &nbsp; ')}</td></tr><tr><td><b>Absences</b></td><td colspan="3">${a.A} non just. · ${a.J} just. · ${a.R} retards</td></tr></table>${isMoney()?`<table><tr><th>Date</th><th>Reçu</th><th>Type</th><th>Montant</th></tr>${pays.map(p=>`<tr><td>${fmtD(p.date)}</td><td>${esc(p.no)}</td><td>${PAYT[p.type][1]}</td><td>${money(p.amount)}</td></tr>`).join('')}<tr><th colspan="3">Dû ${money(expectedOf(s))} · Payé</th><th>${money(paidOf(s))}</th></tr><tr><th colspan="3">Reste / الباقي</th><th>${money(balanceOf(s))}</th></tr></table>`:''}${dSig(dCity())}</div>`)}
+function docStaffFile(id){const s=stf(id);showDoc(L('ملف موظف','Fiche'),`<div class="doc">${dHead()}<div class="dt">FICHE DU PERSONNEL<br>ملف الموظف</div><table><tr><td><b>Nom</b></td><td>${esc(s.name)}</td></tr><tr><td><b>Fonction</b></td><td>${STAFFT[s.type][1]}</td></tr><tr><td><b>CIN</b></td><td>${esc(s.cin||'')}</td></tr><tr><td><b>Diplôme / spécialité</b></td><td>${esc(s.diploma||'')} – ${esc(s.specialty||'')}</td></tr><tr><td><b>Matières</b></td><td>${(s.subjects||[]).map(x=>(sub(x)||{}).fr).join(', ')}</td></tr><tr><td><b>Classes</b></td><td>${staffLoad(id).cl.map(clsName).join(', ')}</td></tr><tr><td><b>Heures / semaine</b></td><td>${staffLoad(id).h||s.hours||''}</td></tr><tr><td><b>Date d'embauche</b></td><td>${fmtD(s.hireDate)}</td></tr><tr><td><b>Téléphone / email</b></td><td>${esc(s.phone||'')} ${esc(s.email||'')}</td></tr><tr><td><b>Absences & congés</b></td><td>${(s.absences||[]).length}</td></tr></table>${dSig(dCity())}</div>`)}
+function docReceipt(pid){const p=DB.payments.find(x=>x.id===pid),s=stu(p.studentId);showDoc(L('وصل الأداء','Reçu'),`<div class="doc">${dHead()}<div class="dt">REÇU DE PAIEMENT N° ${esc(p.no)}<br>وصل الأداء</div><table><tr><td><b>Date / التاريخ</b></td><td>${fmtD(p.date)}</td></tr><tr><td><b>Élève / التلميذ</b></td><td>${esc(fullName(s))}</td></tr><tr><td><b>Classe / القسم</b></td><td>${esc(clsName(s&&s.classId))}</td></tr><tr><td><b>Objet / النوع</b></td><td>${PAYT[p.type][1]} / ${PAYT[p.type][0]}${p.month?' – '+MN.fr[p.month-1]:''}</td></tr><tr><td><b>Mode / الطريقة</b></td><td>${PAYM[p.method][1]}${p.ref?' N° '+esc(p.ref):''}</td></tr><tr><td><b>Montant / المبلغ</b></td><td style="font-size:20px"><b>${money(p.amount)}</b></td></tr><tr><td><b>Reste dû / الباقي</b></td><td>${money(balanceOf(s))}</td></tr></table>${dSig(dCity(),'Le Caissier / الصندوق')}</div>`)}
+function docTT(mode,id){showDoc(L('استعمال الزمن','Emploi du temps'),`<div class="doc">${dHead()}<div class="dt">EMPLOI DU TEMPS – ${esc(mode==='c'?clsName(id):(stf(id)||{}).name)}<br>استعمال الزمن</div>${ttGrid(mode,id,false).replace('class="tt"','class="tt" style="min-width:0"')}</div>`)}
+function docInventory(){showDoc(L('الجرد السنوي','Inventaire'),`<div class="doc">${dHead()}<div class="dt">INVENTAIRE ANNUEL ${yearLbl()}<br>الجرد السنوي</div><table><tr><th>Désignation</th><th>Catégorie</th><th>Réf.</th><th>Qté</th><th>État</th><th>Emplacement</th><th>Constaté</th></tr>${DB.items.map(i=>`<tr><td>${esc(i.name)}</td><td>${ITC[i.category][1]}</td><td>${esc(i.ref||'')}</td><td>${i.qty}</td><td>${esc(i.state||'')}</td><td>${esc(i.location||'')}</td><td></td></tr>`).join('')}</table>${dSig(dCity())}</div>`)}
+
+/* ============ INSIGHTS (AI-like) ============ */
+function vInsights(){
+ const from=new Date(Date.now()-30*864e5).toISOString().slice(0,10),th=+DB.settings.absThreshold;
+ const abs=act().map(s=>({s,a:absOf(s.id,from)})).filter(x=>x.a.A>=Math.max(2,th-1)).sort((a,b)=>b.a.A-a.a.A);
+ const weak=[];DB.classes.forEach(c=>{[1,2].forEach(t=>{const R=results(c.id,t);R.subs.forEach(sb=>{const low=R.rows.filter(r=>r.av[sb.id]!=null&&r.av[sb.id]<10);if(low.length)weak.push({c,t,sb,low,avg:R.subAvg[sb.id]})})})});
+ weak.sort((a,b)=>b.low.length-a.low.length);
+ const late=act().filter(s=>monthlyOf(s)&&balanceOf(s)>=monthlyOf(s)*2);
+ return `<div class="card" style="margin-bottom:14px"><h3>💡 ${L('اسأل المساعد عن المدرسة','Posez une question sur l\'école')}</h3><div class="row"><input id="aiq" class="inp" style="flex:1;min-width:200px" placeholder="${L('مثلاً: شحال من تلميذ في CE1؟ شكون اللي باقي عليه الخلاص؟ شحال المداخيل ديال أكتوبر؟','Ex : combien d\'élèves en CE1 ? qui a des impayés ? recettes d\'octobre ?')}" onkeydown="if(event.key==='Enter')askAI()"><button class="btn p" onclick="askAI()">${L('سؤال','Demander')}</button></div><div id="aia" style="margin-top:10px"></div><div class="row" style="margin-top:8px">${[L('عدد التلاميذ','nombre d\'élèves'),L('المتأخرين في الأداء','impayés'),L('الغياب هاد الشهر','absences ce mois'),L('أحسن تلميذ','meilleur élève'),L('المداخيل','recettes'),L('الأساتذة','enseignants')].map(q=>`<button class="btn s" onclick="$('#aiq').value='${q}';askAI()">${q}</button>`).join('')}</div></div>
+ <div class="grid k2">
+ <div class="card"><h3>🚨 ${L('التلاميذ كثيرو الغياب (30 يوماً)','Absentéisme (30 j)')}</h3>${abs.map(x=>`<div class="row" style="padding:5px 0"><span style="flex:1">${esc(fullName(x.s))} <span class="muted">· ${esc(clsName(x.s.classId))}</span></span><span class="tag bad">${x.a.A}</span>${waBtn(x.s.parentPhone,L(`السلام عليكم، لاحظنا أن ${fullName(x.s)} تغيب ${x.a.A} مرات خلال الشهر الأخير. نرجو حضوركم للإدارة. ${DB.settings.name}`,`Bonjour, ${fullName(x.s)} a été absent(e) ${x.a.A} fois ce dernier mois. Merci de passer à l'administration.`),'')}</div>`).join('')||`<div class="empty">${L('لا يوجد','Aucun')} ✓</div>`}</div>
+ <div class="card"><h3>📉 ${L('المواد التي يحتاج فيها التلاميذ للدعم','Matières nécessitant du soutien')}</h3>${weak.slice(0,10).map(w=>`<div style="padding:6px 0;border-bottom:1px dashed var(--line)"><div class="row"><b style="flex:1">${esc(w.c.name)} · ${esc(L(w.sb.ar,w.sb.fr))} <span class="muted">(S${w.t})</span></b><span class="tag warn">${L('معدل','moy.')} ${f2(w.avg)}</span></div><div class="muted" style="font-size:12.5px">${w.low.length} ${L('تلميذ تحت المعدل','élève(s) < 10')}: ${w.low.slice(0,6).map(r=>esc(fullName(r.s))).join('، ')}${w.low.length>6?'…':''}</div></div>`).join('')||`<div class="empty">${L('لا توجد معطيات كافية','Pas assez de données')}</div>`}</div>
+ <div class="card"><h3>💸 ${L('متأخرون بشهرين أو أكثر','Retards ≥ 2 mois')}</h3>${late.map(s=>`<div class="row" style="padding:5px 0"><span style="flex:1">${esc(fullName(s))}</span><span class="tag bad">${money(balanceOf(s))}</span>${waBtn(s.parentPhone,tplPay(s),'')}</div>`).join('')||`<div class="empty">${L('لا يوجد','Aucun')} ✓</div>`}</div>
+ <div class="card"><h3>🗓 ${L('التقرير الشهري التلقائي','Rapport mensuel automatique')}</h3><div class="row" style="margin-bottom:8px"><input class="inp" type="month" id="rpm" value="${S.f.rpm||today().slice(0,7)}" onchange="S.f.rpm=this.value;render()"><button class="btn s" onclick="copyText($('#rpt').innerText)">📋 ${L('نسخ','Copier')}</button><button class="btn s" onclick="showDoc('Rapport','<div class=doc>'+dHead()+'<div style=white-space:pre-wrap>'+$('#rpt').innerHTML+'</div></div>')">🖨</button></div><div class="pre" id="rpt">${esc(monthlyReport(S.f.rpm||today().slice(0,7)))}</div></div>
+ <div class="card"><h3>✍️ ${L('إنشاء رسائل إدارية','Rédaction de courriers')}</h3><div class="grid" id="lg">${selF(L('نوع الرسالة','Type'),'k','convoc',[['convoc',L('استدعاء ولي أمر','Convocation du tuteur')],['warn',L('إنذار سلوكي','Avertissement')],['congrat',L('تهنئة بالتفوق','Félicitations')],['payrem',L('إشعار بالأداء','Relance de paiement')]])}${selF(L('التلميذ','Élève'),'sid','',stuOpts(),'—')}${selF(L('اللغة','Langue'),'lg',lang,[['ar','العربية'],['fr','Français']])}<button class="btn p" onclick="genLetter()">✨ ${L('إنشاء','Générer')}</button></div><div id="letter" style="margin-top:10px"></div></div>
+ <div class="card"><h3>📷 ${L('استخراج المعلومات من الوثائق','Extraction depuis documents')}</h3><p class="muted">${L('قراءة وثائق التسجيل والفواتير بالكاميرا وتحويلها إلى بيانات تتطلب ربط التطبيق بخدمة ذكاء اصطناعي (OCR) عبر خادم. هذه الخطوة مخطط لها في المرحلة الثانية عند نشر النسخة السحابية.','La lecture des pièces et factures par caméra (OCR/IA) nécessite un service IA côté serveur. Prévu pour la phase 2 (version cloud).')}</p></div>
+ </div>`
+}
+function copyText(t){try{navigator.clipboard.writeText(t).then(()=>toast(L('تم النسخ','Copié')),()=>toast('✗'))}catch(e){toast('✗')}}
+function monthlyReport(mo){
+ const m=+mo.slice(5),st=act(),pays=DB.payments.filter(p=>p.date.startsWith(mo)),exps=DB.expenses.filter(p=>p.date.startsWith(mo));
+ const inc=pays.reduce((a,p)=>a+ +p.amount,0),exp=exps.reduce((a,p)=>a+ +p.amount,0);
+ const newS=DB.students.filter(s=>(s.regDate||'').startsWith(mo)).length,left=DB.students.filter(s=>(s.leftDate||'').startsWith(mo)).length;
+ const days=Object.keys(DB.attendance).filter(d=>d.startsWith(mo));let A=0,R=0,J=0,tot=0;days.forEach(d=>Object.values(DB.attendance[d]).forEach(v=>{tot++;if(v==='A')A++;if(v==='R')R++;if(v==='J')J++}));
+ const due=st.reduce((a,s)=>a+balanceOf(s),0);
+ const top=act().map(s=>({s,a:absOf(s.id,mo+'-01',mo+'-31').A})).filter(x=>x.a).sort((a,b)=>b.a-a.a).slice(0,3);
+ const nm=MN[lang][m-1]+' '+mo.slice(0,4);
+ return L(`التقرير الشهري – ${nm}\n${DB.settings.name}\n\n1. التلاميذ: ${st.length} تلميذ مسجل، ${newS} تسجيل جديد، ${left} مغادرة.\n2. الحضور: ${days.length} يوم مسجل، نسبة الحضور ${tot?(100-(A+J)/tot*100).toFixed(1):'—'}%، ${A} غياب غير مبرر، ${J} مبرر، ${R} تأخر.${top.length?'\n   الأكثر غياباً: '+top.map(x=>fullName(x.s)+' ('+x.a+')').join('، '):''}\n3. المالية: المداخيل ${money(inc)} (${pays.length} عملية)، المصاريف ${money(exp)}، الربح ${money(inc-exp)}.\n   مجموع الديون الحالية: ${money(due)}.\n4. الموظفون: ${DB.staff.length} (منهم ${teachers().length} أستاذ).\n5. المخزون: ${DB.items.filter(i=>i.min&&+i.qty<=+i.min).length} مادة تحت الحد الأدنى.\n\nتوصيات: ${due>inc?'تكثيف تتبع الأداءات. ':''}${A>st.length?'متابعة الغياب مع الآباء. ':''}مواصلة العمل.`,
+ `Rapport mensuel – ${nm}\n${DB.settings.nameFr}\n\n1. Élèves : ${st.length} inscrits, ${newS} nouvelles inscriptions, ${left} départs.\n2. Présence : ${days.length} jours saisis, taux de présence ${tot?(100-(A+J)/tot*100).toFixed(1):'—'} %, ${A} absences non justifiées, ${J} justifiées, ${R} retards.${top.length?'\n   Plus absents : '+top.map(x=>fullName(x.s)+' ('+x.a+')').join(', '):''}\n3. Finances : recettes ${money(inc)} (${pays.length} opérations), dépenses ${money(exp)}, résultat ${money(inc-exp)}.\n   Créances actuelles : ${money(due)}.\n4. Personnel : ${DB.staff.length} (dont ${teachers().length} enseignants).\n5. Stock : ${DB.items.filter(i=>i.min&&+i.qty<=+i.min).length} article(s) sous le seuil.\n\nRecommandations : ${due>inc?'renforcer le recouvrement. ':''}${A>st.length?'suivre l\'absentéisme avec les parents. ':''}poursuivre le travail.`)
+}
+function genLetter(){const d=fd('#lg'),s=stu(d.sid);if(!s)return toast(L('اختر التلميذ','Choisissez l\'élève'));const g=s.guardian||s.fatherName||'',n=fullName(s),c=clsName(s.classId),ar=d.lg==='ar',sc=ar?DB.settings.name:DB.settings.nameFr;
+ const T={convoc:ar?`السيد(ة) ${g} المحترم(ة)،\n\nتحية طيبة وبعد، يشرفنا دعوتكم للحضور إلى إدارة المؤسسة يوم ...... على الساعة ...... وذلك لمناقشة الوضعية الدراسية لابنكم/ابنتكم ${n}، تلميذ(ة) بقسم ${c}.\n\nوتقبلوا فائق التقدير والاحترام.\nالإدارة – ${sc}`:`Monsieur/Madame ${g},\n\nNous avons l'honneur de vous convoquer à l'administration le ...... à ...... afin d'échanger au sujet de la situation scolaire de votre enfant ${n}, élève en ${c}.\n\nVeuillez agréer nos salutations distinguées.\nLa Direction – ${sc}`,
+ warn:ar?`السيد(ة) ${g} المحترم(ة)،\n\nنحيطكم علماً بأن ابنكم/ابنتكم ${n} (قسم ${c}) قد صدر عنه(ا) سلوك مخالف للنظام الداخلي للمؤسسة بتاريخ ......، ولذلك يوجه إليه(ا) هذا الإنذار. نرجو تعاونكم لتفادي تكرار ذلك.\n\nالإدارة – ${sc}`:`Monsieur/Madame ${g},\n\nNous vous informons que votre enfant ${n} (${c}) a eu le ...... un comportement contraire au règlement intérieur. Le présent avertissement lui est adressé. Nous comptons sur votre collaboration.\n\nLa Direction – ${sc}`,
+ congrat:ar?`السيد(ة) ${g} المحترم(ة)،\n\nيسعدنا أن نهنئكم على النتائج المتميزة التي حققها ابنكم/ابنتكم ${n} (قسم ${c})، ونتمنى له(ا) مزيداً من التفوق والنجاح.\n\nالإدارة – ${sc}`:`Monsieur/Madame ${g},\n\nNous avons le plaisir de vous féliciter pour les excellents résultats obtenus par votre enfant ${n} (${c}). Nous lui souhaitons encore plus de réussite.\n\nLa Direction – ${sc}`,
+ payrem:ar?`السيد(ة) ${g} المحترم(ة)،\n\nنحيطكم علماً بأن الواجبات المتبقية في ذمة ابنكم/ابنتكم ${n} (قسم ${c}) تبلغ ${money(balanceOf(s))} إلى غاية ${fmtD(today())}. نرجو تسويتها في أقرب الآجال.\n\nمصلحة المحاسبة – ${sc}`:`Monsieur/Madame ${g},\n\nNous vous informons que le solde restant dû pour votre enfant ${n} (${c}) s'élève à ${money(balanceOf(s))} au ${fmtD(today())}. Merci de le régulariser dans les meilleurs délais.\n\nService comptabilité – ${sc}`};
+ const t=T[d.k];$('#letter').innerHTML=`<div class="pre" dir="${ar?'rtl':'ltr'}">${esc(t)}</div><div class="row" style="margin-top:8px"><button class="btn s" onclick="copyText(${esc(JSON.stringify(t))})">📋 ${L('نسخ','Copier')}</button>${waBtn(s.parentPhone,t)}</div>`}
+function askAI(){
+ const q=($('#aiq').value||'').toLowerCase().trim();if(!q)return;
+ const has=(...w)=>w.some(x=>q.includes(x));let a='';
+ const c=DB.classes.find(x=>q.includes(x.name.toLowerCase()));
+ if(has('غياب','غايب','absen','تغيب')){const mo=today().slice(0,7);const l=act().map(s=>({s,a:absOf(s.id,mo+'-01',mo+'-31').A})).filter(x=>x.a).sort((x,y)=>y.a-x.a);a=L(`هاد الشهر: ${l.reduce((s,x)=>s+x.a,0)} غياب غير مبرر عند ${l.length} تلميذ.`,`Ce mois : ${l.reduce((s,x)=>s+x.a,0)} absences non justifiées chez ${l.length} élève(s).`)+(l.length?'<br>'+l.slice(0,8).map(x=>`• ${esc(fullName(x.s))} (${esc(clsName(x.s.classId))}): ${x.a}`).join('<br>'):'')}
+ else if(has('خلص','خلاص','ديون','دين','باقي','impay','doit','retard','paiement','متأخر')){const l=act().filter(s=>balanceOf(s)>0).sort((x,y)=>balanceOf(y)-balanceOf(x));a=L(`${l.length} تلميذ باقي عليهم ما مجموعه ${money(l.reduce((s,x)=>s+balanceOf(x),0))}:`,`${l.length} élève(s) doivent au total ${money(l.reduce((s,x)=>s+balanceOf(x),0))} :`)+'<br>'+l.slice(0,10).map(s=>`• ${esc(fullName(s))}: ${money(balanceOf(s))}`).join('<br>')}
+ else if(has('مداخيل','دخل','recette','revenu','income','ربح','bénéf')){const mi=MN.ar.findIndex(m=>q.includes(m))+1||MN.fr.findIndex(m=>q.includes(m.toLowerCase()))+1;if(mi){const k=smKey(mi),v=DB.payments.filter(p=>p.date.startsWith(k)).reduce((s,p)=>s+ +p.amount,0),e=DB.expenses.filter(p=>p.date.startsWith(k)).reduce((s,p)=>s+ +p.amount,0);a=L(`مداخيل ${mName(mi)}: ${money(v)} · المصاريف: ${money(e)} · الربح: ${money(v-e)}`,`${mName(mi)} : recettes ${money(v)} · dépenses ${money(e)} · résultat ${money(v-e)}`)}else{const t=monthTotals();a=t.filter(x=>x.inc||x.exp).map(x=>`• ${mName(x.m)}: ${money(x.inc)} / ${money(x.exp)}`).join('<br>')||'—'}}
+ else if(has('أحسن','الأول','meilleur','premier','top','متفوق')){const l=[];DB.classes.forEach(cc=>{const R=results(cc.id,S.f.gt||1);if(R.ranked[0])l.push(`• ${esc(cc.name)}: ${esc(fullName(R.ranked[0].s))} (${f2(R.ranked[0].avg)})`)});a=l.join('<br>')||L('لا توجد نقط بعد','Pas de notes')}
+ else if(has('أستاذ','اساتذ','أساتذ','enseignant','prof','موظف')){a=teachers().map(t=>`• ${esc(t.name)} — ${(t.subjects||[]).map(subName).join('، ')} (${staffLoad(t.id).h}h)`).join('<br>')||'—'}
+ else if(has('تلميذ','تلاميذ','élève','eleve','عدد','شحال','combien')){if(c){const sts=studentsOf(c.id);a=L(`القسم ${esc(c.name)}: ${sts.length} تلميذ (${sts.filter(s=>s.gender==='F').length} إناث) من أصل ${c.capacity} مقعد.`,`${esc(c.name)} : ${sts.length} élèves (${sts.filter(s=>s.gender==='F').length} filles) pour ${c.capacity} places.`)}else{a=L(`${act().length} تلميذ مسجل: `,`${act().length} élèves inscrits : `)+CYCLES.map(cy=>`${L(cy[1],cy[2])} ${act().filter(s=>cycleOf(s)===cy[0]).length}`).join(' · ')}}
+ else if(has('قسم','classe')){a=DB.classes.map(cc=>`• ${esc(cc.name)}: ${studentsOf(cc.id).length}/${cc.capacity}`).join('<br>')}
+ else{const s=DB.students.find(x=>q.includes((x.firstName||'').toLowerCase())&&q.includes((x.lastName||'').toLowerCase()))||DB.students.find(x=>(x.firstName||'').length>2&&q.includes((x.firstName||'').toLowerCase()));if(s){const ab=absOf(s.id);a=`<b>${esc(fullName(s))}</b> — ${esc(clsName(s.classId))}<br>${L('الغياب','Absences')}: ${ab.A} · ${L('الباقي','Reste')}: ${money(balanceOf(s))} · ${L('الهاتف','Tél')}: ${esc(s.parentPhone||'—')} <button class="btn s" onclick="studentCard('${s.id}')">📇</button>`}else a=L('ما فهمتش السؤال. جرب: عدد التلاميذ، الغياب، المتأخرين في الأداء، المداخيل ديال أكتوبر، أحسن تلميذ، الأساتذة، أو اسم تلميذ.','Je n\'ai pas compris. Essayez : nombre d\'élèves, absences, impayés, recettes d\'octobre, meilleur élève, enseignants, ou le nom d\'un élève.')}
+ $('#aia').innerHTML=`<div class="pre">🤖 ${a}</div>`;
+}
+
+/* ============ SETTINGS ============ */
+function vSettings(){
+ const t=curTab('settings','school');
+ let h=tabs('settings',[['school',L('المؤسسة والواجبات','Établissement & frais')],['subjects',L('المواد','Matières')],['security',L('الرمز السري','Code PIN')],['backup',L('النسخ الاحتياطي','Sauvegarde')],['audit',L('سجل العمليات','Journal')]]);
+ const s=DB.settings;
+ if(t==='school'){h+=`<div class="card"><div class="fg" id="stf">${inp('اسم المؤسسة (عربية)','name',s.name)}${inp('Nom (français)','nameFr',s.nameFr)}${inp(L('العنوان','Adresse'),'address',s.address)}${inp(L('المدينة','Ville'),'city',s.city)}${inp(L('الهاتف','Téléphone'),'phone',s.phone)}${inp(L('البريد الإلكتروني','Email'),'email',s.email)}${inp(L('رقم الرخصة / الترخيص','N° d\'autorisation'),'auth',s.auth)}${inp(L('بداية السنة الدراسية (شتنبر)','Début année scolaire (sept.)'),'yearStart',s.yearStart,'number')}${inp(L('العملة','Devise'),'currency',s.currency)}${inp(L('عتبة الغياب للتنبيه','Seuil d\'alerte absences'),'absThreshold',s.absThreshold,'number')}</div>
+ <h4 style="margin:18px 0 10px">💰 ${L('الواجبات','Frais')}</h4><div class="fg">${inp(L('واجب التسجيل','Frais d\'inscription'),'inscFee',s.inscFee,'number')}${CYCLES.map(c=>inp(L('الشهري – ','Mensualité – ')+L(c[1],c[2]),'m_'+c[0],s.monthly[c[0]],'number')).join('')}${inp(L('النقل الشهري','Transport / mois'),'transportFee',s.transportFee,'number')}${inp(L('المطعم الشهري','Cantine / mois'),'canteenFee',s.canteenFee,'number')}</div>
+ <div style="margin-top:14px"><button class="btn p" onclick="saveSettings()">💾 ${L('حفظ الإعدادات','Enregistrer')}</button></div></div>`}
+ else if(t==='subjects'){h+=`<div class="row" style="margin-bottom:12px"><span class="sp"></span><button class="btn p" onclick="subjectForm()">+ ${L('مادة جديدة','Nouvelle matière')}</button></div><div class="tw"><table class="tbl"><tr><th>العربية</th><th>Français</th><th>${L('المعامل','Coefficient')}</th><th></th></tr>${DB.subjects.map(x=>`<tr><td>${esc(x.ar)}</td><td>${esc(x.fr)}</td><td>${x.coef}</td><td><button class="btn s" onclick="subjectForm('${x.id}')">✏️</button> <button class="btn s d" onclick="delSubject('${x.id}')">🗑</button></td></tr>`).join('')}</table></div>`}
+ else if(t==='security'){h+=`<div class="card" style="max-width:460px"><h3>🔐 ${L('الرمز السري للدخول','Code PIN d\'accès')}</h3><div class="grid" id="pinf">${inp(L('الرمز الجديد (4 إلى 8 أرقام)','Nouveau PIN (4 à 8 chiffres)'),'pin_director',DB.users.director,'text','inputmode="numeric"')}<div class="muted" style="font-size:12.5px">${L('زر «قفل» فالأعلى كيسد التطبيق وكيطلب الرمز من جديد.','Le bouton « Verrouiller » ferme l\'application et redemande le PIN.')}</div><button class="btn p" onclick="savePins()">💾 ${L('حفظ','Enregistrer')}</button></div></div>`}
+ else if(t==='backup'){h+=`<div class="grid k2"><div class="card"><h3>💾 ${L('النسخ الاحتياطي','Sauvegarde')}</h3><p class="muted">${L('البيانات محفوظة تلقائياً في هذا المتصفح. خذ نسخة احتياطية بانتظام (أسبوعياً على الأقل) واحتفظ بها في مكان آمن (USB، Google Drive...).','Les données sont enregistrées automatiquement dans ce navigateur. Faites une sauvegarde régulière (au moins hebdomadaire) et conservez-la en lieu sûr.')}</p><div class="row"><button class="btn p" onclick="exportBackup()">⬇️ ${L('تحميل نسخة احتياطية','Télécharger la sauvegarde')}</button><button class="btn" onclick="copyText(JSON.stringify(DB))">📋 ${L('نسخ البيانات','Copier les données')}</button><button class="btn" onclick="$('#importFile').click()">⬆️ ${L('استرجاع نسخة','Restaurer')}</button></div><div class="muted" style="margin-top:10px;font-size:12px">${L('آخر نسخة','Dernière sauvegarde')}: ${DB.lastBackup?new Date(DB.lastBackup).toLocaleString():'—'} · ${L('الحجم','Taille')}: ${(JSON.stringify(DB).length/1024).toFixed(0)} KB</div></div>
+ <div class="card"><h3>🧪 ${L('البيانات التجريبية وإعادة التعيين','Démo & réinitialisation')}</h3><div class="row"><button class="btn" onclick="ask(L('سيتم استبدال جميع البيانات الحالية ببيانات تجريبية. متابعة؟','Toutes les données seront remplacées par la démo. Continuer ?'),seedDemo)">🧪 ${L('تحميل بيانات تجريبية','Charger la démo')}</button><button class="btn d" onclick="ask(L('حذف جميع البيانات نهائياً؟ خذ نسخة احتياطية أولاً.','Supprimer définitivement toutes les données ? Faites d\\'abord une sauvegarde.'),resetAll)">⚠️ ${L('مسح جميع البيانات','Tout effacer')}</button></div></div></div>`}
+ else{h+=`<div class="tw"><table class="tbl"><tr><th>${L('الوقت','Date/heure')}</th><th>${L('المستخدم','Utilisateur')}</th><th>${L('العملية','Action')}</th></tr>${DB.audit.slice(0,300).map(a=>`<tr><td style="white-space:nowrap">${new Date(a.ts).toLocaleString('fr-FR')}</td><td>${esc(a.u)}</td><td>${esc(a.a)}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">—</td></tr>`}</table></div>`}
+ return h;
+}
+function saveSettings(){const d=fd('#stf');CYCLES.forEach(c=>{DB.settings.monthly[c[0]]=+d['m_'+c[0]]||0;delete d['m_'+c[0]]});['yearStart','inscFee','transportFee','canteenFee','absThreshold'].forEach(k=>d[k]=+d[k]||0);Object.assign(DB.settings,d);toast(L('تم الحفظ','Enregistré'));commit(L('تعديل الإعدادات','Paramètres modifiés'))}
+function savePins(){const d=fd('#pinf');for(const r in DB.users){const v=d['pin_'+r];if(!/^\d{4,8}$/.test(v))return toast(L('الرمز يجب أن يكون من 4 إلى 8 أرقام','PIN : 4 à 8 chiffres'));DB.users[r]=v}toast(L('تم الحفظ','Enregistré'));commit(L('تغيير الرموز السرية','Codes PIN modifiés'))}
+function subjectForm(id){const x=id?sub(id):{coef:1};modal(L('مادة','Matière'),`<div class="fg" id="sbf">${inp('الاسم بالعربية','ar',x.ar,'text','required')}${inp('Nom en français','fr',x.fr)}${inp(L('المعامل','Coefficient'),'coef',x.coef,'number','min="0.5" step="0.5"')}</div>`,`<button class="btn p" onclick="saveSubject('${id||''}')">💾</button>`,'sm')}
+function saveSubject(id){const d=fd('#sbf');if(!d.ar)return;d.coef=+d.coef||1;if(!d.fr)d.fr=d.ar;if(id)Object.assign(sub(id),d);else DB.subjects.push({id:uid(),...d});closeModal();commit(L('مادة: ','Matière: ')+d.ar)}
+function delSubject(id){ask(L('حذف المادة؟','Supprimer la matière ?'),()=>{DB.subjects=DB.subjects.filter(x=>x.id!==id);commit()})}
+function exportBackup(){DB.lastBackup=new Date().toISOString();save();const b=new Blob([JSON.stringify(DB,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`madrasati-backup-${today()}.json`;document.body.appendChild(a);a.click();a.remove();log(L('نسخة احتياطية','Sauvegarde exportée'));save();toast(L('إذا لم يبدأ التحميل استعمل زر "نسخ البيانات"','Si le téléchargement ne démarre pas, utilisez « Copier les données »'));render()}
+function importBackup(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.students))throw 0;const b=defaultDB();DB=Object.assign(b,d,{settings:Object.assign(b.settings,d.settings||{})});commit(L('استرجاع نسخة احتياطية','Restauration'));toast(L('تم الاسترجاع بنجاح','Restauration réussie'))}catch(e){toast(L('ملف غير صالح','Fichier invalide'))}el.value=''};r.readAsText(f)}
+function resetAll(){const u=DB.users;DB=defaultDB();DB.users=u;seedSubjects();commit(L('مسح جميع البيانات','Réinitialisation'))}
+
+const VIEWS={dashboard:vDashboard,students:vStudents,classes:vClasses,staff:vStaff,attendance:vAttendance,finance:vFinance,grades:vGrades,timetable:vTimetable,comms:vComms,services:vServices,inventory:vInventory,documents:vDocuments,insights:vInsights,settings:vSettings};
+
+/* ============ SEED ============ */
+function seedSubjects(){DB.subjects=[['اللغة العربية','Langue arabe',3],['اللغة الفرنسية','Français',3],['الرياضيات','Mathématiques',3],['النشاط العلمي / علوم الحياة والأرض','Sciences / SVT',2],['الفيزياء والكيمياء','Physique-chimie',2],['التربية الإسلامية','Éducation islamique',1],['الاجتماعيات','Histoire-géographie',1],['اللغة الإنجليزية','Anglais',1],['المعلوميات','Informatique',1],['التربية البدنية','Éducation physique',1]].map(x=>({id:uid(),ar:x[0],fr:x[1],coef:x[2]}))}
+function seedDemo(){
+ const keep=DB.users;DB=defaultDB();DB.users=keep;seedSubjects();
+ Object.assign(DB.settings,{address:'شارع الحسن الثاني، رقم 12',city:'Ouezzane',phone:'0537 00 00 00',auth:'ترخيص رقم 2019/45'});
+ let rs=7;const rnd=()=>{rs=(rs*16807)%2147483647;return rs/2147483647};const pick=a=>a[Math.floor(rnd()*a.length)];
+ const C=[['GS-A','pre','الصف الثاني أولي'],['CE1-A','pri','الأول ابتدائي'],['CE4-A','pri','الرابع ابتدائي'],['CE6-A','pri','السادس ابتدائي'],['1AC-A','col','الأولى إعدادي'],['3AC-A','col','الثالثة إعدادي'],['TC-S','lyc','الجذع المشترك العلمي']];
+ C.forEach(([n,c,l],i)=>DB.classes.push({id:'c'+i,name:n,cycle:c,level:l,capacity:i===0?20:28,room:'S'+(i+1)}));
+ const SB=DB.subjects;
+ const T=[['أ. فاطمة الزهراء بنعلي',[0,6]],['أ. محمد الإدريسي',[2,4]],['Mme Nadia Alami',[1]],['أ. يوسف التازي',[3,4]],['Mr Karim Bennani',[7,8]],['أ. عبد الله الوزاني',[5,6]],['أ. سعاد الحسني',[9]]];
+ T.forEach(([n,s],i)=>DB.staff.push({id:'t'+i,name:n,type:'teacher',subjects:s.map(k=>SB[k].id),specialty:L(SB[s[0]].ar,SB[s[0]].fr),diploma:pick(['إجازة','ماستر','Licence','Master']),phone:'06'+String(10000000+Math.floor(rnd()*89999999)),salary:4500+Math.floor(rnd()*6)*500,hireDate:'20'+(15+i)+'-09-01',absences:i===2?[{id:uid(),date:smKey(10)+'-14',type:'sick',note:''}]:[]}));
+ DB.staff.push({id:'a1',name:'خديجة المنصوري',type:'admin',phone:'0611223344',salary:4000,absences:[]},{id:'a2',name:'رشيد القادري',type:'accountant',phone:'0622334455',salary:5000,absences:[]},{id:'a3',name:'إبراهيم الشرقاوي',type:'surveillant',phone:'0633445566',salary:3800,absences:[]},{id:'d1',name:'الحسين بوزيد',type:'driver',phone:'0644556677',salary:3200,absences:[]});
+ DB.classes.forEach((c,i)=>c.mainTeacher='t'+(i%7));
+ DB.buses=[{id:'b1',name:'الخط 1 – وسط المدينة',driver:'الحسين بوزيد',phone:'0644556677',plate:'12345-أ-6',seats:20,route:'الحي الإداري، السوق، حي الأمل'},{id:'b2',name:'الخط 2 – الأحياء الشمالية',driver:'سعيد الفيلالي',phone:'0655667788',plate:'67890-ب-6',seats:16,route:'حي السلام، الحي الجديد'}];
+ const FN=[['ياسين','M'],['آدم','M'],['محمد','M'],['سلمى','F'],['مريم','F'],['هبة','F'],['يوسف','M'],['إلياس','M'],['نور','F'],['خديجة','F'],['أمين','M'],['زينب','F'],['عمر','M'],['رانية','F'],['أيوب','M'],['سارة','F'],['حمزة','M'],['إيمان','F'],['أنس','M'],['لينا','F'],['ريان','M'],['جنى','F'],['زكرياء','M'],['ملك','F']];
+ const LN=['العلوي','بنعلي','الإدريسي','التازي','الفاسي','بناني','الرزوقي','الشرقاوي','الوزاني','المنصوري','الحسني','القادري','البقالي','الصنهاجي'];
+ const FA=['أحمد','مصطفى','عبد الرحيم','خالد','عبد الإله','رشيد','سعيد','عزيز','حسن','نور الدين'];
+ const by=[2021,2019,2016,2014,2013,2011,2010];
+ let k=0;
+ DB.classes.forEach((c,ci)=>{const n=c.cycle==='pre'?10:13+Math.floor(rnd()*6);for(let j=0;j<n;j++){const f=FN[(k*7+j)%FN.length],ln=pick(LN),fa=pick(FA);const ph='06'+String(10000000+Math.floor(rnd()*89999999));
+  DB.students.push({id:'s'+k,firstName:f[0],lastName:ln,gender:f[1],birth:`${by[ci]}-${String(1+Math.floor(rnd()*12)).padStart(2,'0')}-${String(1+Math.floor(rnd()*27)).padStart(2,'0')}`,birthPlace:pick(['وزان','فاس','طنجة','الرباط','مكناس']),massar:c.cycle==='pre'?'':String.fromCharCode(65+Math.floor(rnd()*20))+String(130000000+Math.floor(rnd()*9999999)),classId:c.id,status:'active',regDate:rnd()<.12?today():smKey(9)+'-0'+(1+Math.floor(rnd()*8)),prevSchool:rnd()<.3?pick(['مدرسة الأمل','م/م الوحدة','École Al Massira']):'',fatherName:fa+' '+ln,motherName:pick(['فاطمة','عائشة','نعيمة','حليمة','سميرة','لطيفة'])+' '+pick(LN),guardian:'',parentPhone:k===0?'0600000001':ph,address:pick(['حي الأمل','حي السلام','الحي الإداري','حي الأندلس','الحي الجديد'])+'، رقم '+(1+Math.floor(rnd()*99)),busId:rnd()<.3?pick(['b1','b2']):'',canteen:rnd()<.35,allergies:rnd()<.08?pick(['حساسية الفول السوداني','Gluten','حساسية الحليب']):'',docs:[0,1,3,4].filter(()=>rnd()<.9),fee:''});k++}});
+ DB.students[1].parentPhone='0600000001';DB.students[1].lastName=DB.students[0].lastName;DB.students[1].fatherName=DB.students[0].fatherName;
+ DB.students.push({id:'sx',firstName:'إدريس',lastName:'البقالي',gender:'M',birth:'2013-04-02',classId:'c4',status:'transferred',regDate:smKey(9)+'-02',leftDate:smKey(10)+'-20',parentPhone:'0699887766',docs:[0,1],fee:''});
+ // payments
+ const mE=monthsElapsed(),now=today();
+ DB.students.filter(s=>s.status==='active').forEach(s=>{const r=rnd();const paidM=r<.15?Math.max(0,mE-2):r<.3?Math.max(0,mE-1):mE;const add=(type,amt,m,d)=>{DB.seq.receipt++;DB.payments.push({id:uid(),no:`R${DB.settings.yearStart}-${String(DB.seq.receipt).padStart(4,'0')}`,studentId:s.id,type,amount:amt,month:m||'',date:d,method:pick(['cash','cash','cash','cheque','transfer']),ref:''})};
+  const d0=(s.regDate<now?s.regDate:now);add('insc',DB.settings.inscFee,'',d0);
+  for(let i=0;i<paidM;i++){const m=SM[i];let d=smKey(m)+'-0'+(1+Math.floor(rnd()*9));if(d>now)d=now;add('month',baseMonthly(s),m,d);if(s.busId)add('transport',DB.settings.transportFee,m,d);if(s.canteen)add('canteen',DB.settings.canteenFee,m,d)}});
+ // expenses
+ SM.slice(0,mE).forEach(m=>{const k2=smKey(m);let d=k2+'-28';if(d>now)d=now;DB.staff.forEach(s=>DB.expenses.push({id:uid(),date:d,category:'salary',amount:+s.salary,label:'أجرة '+s.name+' – '+MN.ar[m-1],staffId:s.id}));DB.expenses.push({id:uid(),date:k2+'-05'>now?now:k2+'-05',category:'rent',amount:12000,label:'كراء البناية'},{id:uid(),date:k2+'-15'>now?now:k2+'-15',category:'utilities',amount:1800+Math.floor(rnd()*900),label:'فاتورة الماء والكهرباء'},{id:uid(),date:k2+'-10'>now?now:k2+'-10',category:'transport',amount:2500,label:'وقود الحافلات'},{id:uid(),date:k2+'-12'>now?now:k2+'-12',category:'canteen',amount:6000+Math.floor(rnd()*2000),label:'مواد غذائية للمطعم'})});
+ // attendance last 15 school days
+ let d=new Date(),cnt=0;while(cnt<15){const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(d.getDay()!==0&&ds>=smKey(9)+'-01'){const rec={};act().forEach((s,i)=>{const r=rnd();rec[s.id]=(i%17===3&&r<.4)?'A':r<.04?'A':r<.07?'R':r<.085?'J':'P'});if(cnt>0||new Date().getHours()>=10)DB.attendance[ds]=rec;cnt++}d.setDate(d.getDate()-1)}
+ // evals
+ DB.classes.forEach(c=>{const ss=c.cycle==='pre'?[0,1,2]:c.cycle==='pri'?[0,1,2,3,5,6]:[0,1,2,3,4,5,7];ss.forEach(si=>{for(let e=1;e<=2;e++){const marks={};studentsOf(c.id).forEach((s,i)=>{const base=8+((i*37+si*11)%10);marks[s.id]=Math.max(2,Math.min(20,Math.round((base+(rnd()*6-2))*4)/4))});DB.evals.push({id:uid(),classId:c.id,subjectId:SB[si].id,term:'1',title:(lang==='ar'?'الفرض ':'Contrôle ')+e,date:smKey(10)+'-'+(10+e*7),marks})}})});
+ // timetable
+ DB.classes.forEach((c,ci)=>{DB.timetable[c.id]={};const tl=DB.staff.filter(t=>t.type==='teacher');for(let di=0;di<6;di++)for(let si=0;si<(di===5?4:7);si++){if(rnd()<.18)continue;const t=tl[(ci+di*3+si*2)%tl.length];const k3=di+'-'+si;let ok=true;for(const c2 in DB.timetable){const y=DB.timetable[c2][k3];if(y&&y.teacherId===t.id)ok=false}if(!ok)continue;DB.timetable[c.id][k3]={subjectId:t.subjects[(di+si)%t.subjects.length],teacherId:t.id,room:c.room,note:'',cancel:false}}});
+ const fk=Object.keys(DB.timetable.c3)[2];if(fk)DB.timetable.c3[fk].cancel=true;
+ // inventory
+ DB.items=[['كتاب الرياضيات – السادس ابتدائي','book',35,10],['قصص للأطفال','library',120,0],['دفاتر 96 صفحة','supplies',240,50],['أقلام السبورة','supplies',8,20],['طاولات مزدوجة','furniture',210,0],['حواسيب – قاعة المعلوميات','it',16,0],['طابعة HP LaserJet','it',2,0],['ورق A4 (رزمة)','supplies',12,15]].map(x=>({id:uid(),name:x[0],category:x[1],qty:x[2],min:x[3]||'',state:'جيدة',location:x[1]==='it'?'قاعة المعلوميات':'المخزن'}));
+ DB.items.forEach(i=>DB.moves.push({id:uid(),itemId:i.id,date:smKey(9)+'-01',qty:i.qty,note:'رصيد أولي'}));
+ DB.menu={0:'طاجين الدجاج بالخضر + فاكهة',1:'عدس + سلطة + ياغورت',2:'كسكس بالخضر',3:'سمك مقلي + أرز',4:'كسكس الجمعة',5:'—'};
+ DB.messages=[{id:uid(),date:smKey(10)+'-25',to:'all',target:'',subject:'اجتماع الآباء والأمهات',body:'السلام عليكم،\nيسر الإدارة دعوتكم لاجتماع الآباء يوم السبت المقبل على الساعة العاشرة صباحاً.\n'+DB.settings.name}];
+ DB.events=[{id:uid(),type:'event',title:'امتحانات المراقبة المستمرة – الدورة الأولى',date:new Date(Date.now()+6*864e5).toISOString().slice(0,10)},{id:uid(),type:'event',title:'عطلة المسيرة الخضراء',date:new Date(Date.now()+4*864e5).toISOString().slice(0,10)}];
+ log(L('تحميل البيانات التجريبية','Données de démo chargées'));save();toast(L('تم تحميل البيانات التجريبية','Données de démo chargées'));render();
+}
+render();
+</script>
+</body>
+</html>
